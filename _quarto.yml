@@ -49,7 +49,7 @@ format:
         utterances:
             repo: e-kotov/mitma-data-issues
             label: comments
-            issue-term: title
+            issue-term: pathname
     code-overflow: wrap
     code-fold: false
     code-summary: "Show the code"
