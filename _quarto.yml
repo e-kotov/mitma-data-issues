@@ -43,11 +43,11 @@ format:
     toc-depth: 4
     toc-expand: 4
     toc-location: right
-    comments: 
+    comments:
         utterances:
             repo: e-kotov/mitma-data-issues
             label: comments
-            issue-term: og:title
+            issue-term: title
     code-overflow: wrap
     code-fold: false
     code-summary: "Show the code"
