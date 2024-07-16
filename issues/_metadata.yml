@@ -1,0 +1,40 @@
+# options specified here will apply to all posts in this folder
+
+website:
+  comments: 
+    utterances:
+      repo: e-kotov/mitma-data-issues
+      
+
+authors:
+  - name: Egor Kotov
+    url: https://www.ekotov.pro/
+    orcid: 0000-0001-6690-5345
+    # affiliations:
+    #   - ref: mpidr
+    #   - ref: upf
+
+# affiliations:
+#   - id: mpidr
+#     name: Max Planck Institute for Demographic Research
+#     city: Rostock
+#     country: Germany
+#     url: https://demogr.mpg.de/
+#   - id: upf
+#     name: Universitat Pompeu Fabra
+#     city: Barcelona
+#     country: Spain
+#     url: https://www.upf.edu/
+
+
+execute:
+  freeze: auto # prevents posts from re-rendering unless explicitly told to do so (for more, see https://quarto.org/docs/projects/code-execution.html#freeze)
+  echo: true
+  output: true
+  warning: false
+  error: false
+
+# enable banner style title blocks (see https://quarto.org/docs/authoring/title-blocks.html)
+# title-block-banner: true
+
+# copied from https://github.com/samanthacsik/samanthacsik.github.io/blob/main/posts/_metadata.yml

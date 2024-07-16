@@ -1,0 +1,92 @@
+---
+title: "Invalid Geometries in Municipality Boundaries"
+from: markdown+emoji
+code-annotations: hover
+date: "2024-07-16"
+date-modified: "2024-07-16"
+# issue-number: 1
+# repo-url: https://github.com/e-kotov/mitma-data-issues
+categories:
+    - spatial data
+    - geometry
+---
+
+<!-- **Discuss**: [in GitHub issue #{{< meta issue-number >}}]({{< meta repo-url >}}/issues/#{{< meta issue-number >}}) -->
+
+**Summary**: There are 2 invalid geometries in the municipality boundaries dataset.
+
+**Expected Results**: The dataset should not contain any invalid geometries.
+
+### Steps to Reproduce
+
+1. **Load Data**
+
+Load libraries and define data files.
+
+```{r}
+#| output: false
+
+library(tidyverse)
+library(sf)
+library(here)
+library(DT)
+
+
+municipal_boundaries_data_file <- here("data/raw_data/v2/zonificacion/zonificacion_municipios/zonificacion_municipios.shp")
+municipality_names_file <- here("data/raw_data/v2/zonificacion/zonificacion_municipios/nombres_municipios.csv")
+```
+
+Load the data and join the municipality names to the boundaries.
+
+
+```{r}
+municipality_boundaries <- read_sf(municipal_boundaries_data_file)
+
+municipality_names <- read_delim(municipality_names_file,
+    delim = "|", show_col_types = FALSE, name_repair = "unique_quiet")
+
+municipality_boundaries <- municipality_boundaries |>
+    left_join(municipality_names |> select(ID, name), by = c("ID"))
+```
+
+
+2. **Identify Invalid Geometries**
+
+```{r}
+municipality_boundaries_invalid <- !st_is_valid(municipality_boundaries)
+```
+
+### Results
+
+3. **Number of Invalid Geometries**
+
+```{r}
+sum(municipality_boundaries_invalid)
+```
+
+4. **Names of Municipalities with Invalid Geometries**
+
+```{r}
+DT::datatable(municipality_boundaries[municipality_boundaries_invalid,] |> st_drop_geometry())
+```
+
+
+
+### Links to the original files
+
+```{r}
+source(here("R/901-download-helpers.R"))
+files <- load_latest_v2_xml()
+# DT::datatable(files |> filter(basename(local_path) %in% basename(c(municipal_boundaries_data_file, municipality_names_file))))
+
+# Filter relevant files
+relevant_files <- files %>%
+  filter(basename(local_path) %in% basename(c(municipal_boundaries_data_file, municipality_names_file)) )
+
+# Create HTML links
+relevant_files <- relevant_files %>%
+  mutate(target_url = paste0("<a href='", target_url, "' target='_blank'>", target_url, "</a>"))
+
+# Render the DT table with links
+datatable(relevant_files, escape = FALSE, options = list(pageLength = 5))
+```

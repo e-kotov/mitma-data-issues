@@ -1,0 +1,51 @@
+---
+title: "Issues in MITMA open mobility data"
+listing:
+  id: "issues"
+  contents: issues
+  sort: "date desc"
+  type: table
+  table-hover: true
+  image-align: right
+  max-description-length: 175
+  categories: true
+  sort-ui: [date, date-modified]
+  date-format: iso
+  # filter-ui: [date, date-modified, title, categories, issue-number]
+  # fields: [date, date-modified, title, categories, issue-number]
+  filter-ui: [date, date-modified, title, categories]
+  fields: [date, date-modified, title, categories]
+page-layout: full
+title-block-banner: false
+authors:
+  - name: Egor Kotov
+    url: https://www.ekotov.pro/
+    orcid: 0000-0001-6690-5345
+    affiliations:
+      - ref: mpidr
+      - ref: upf
+
+affiliations:
+  - id: mpidr
+    name: Max Planck Institute for Demographic Research
+    city: Rostock
+    country: Germany
+    url: https://demogr.mpg.de/
+  - id: upf
+    name: Universitat Pompeu Fabra
+    city: Barcelona
+    country: Spain
+    url: https://www.upf.edu/
+---
+
+
+This is a collection of issues identified (and resolved, if applicable) in the [MITMA open mobility data](https://www.transportes.gob.es/ministerio/proyectos-singulares/estudios-de-movilidad-con-big-data/opendata-movilidad){target="_blank"}
+
+The data in this repository contains *"datos abiertos MITMA" ("MITMA open data")* [@mitma-mobility-2024-v6] and was downloaded from [this page](https://www.transportes.gob.es/ministerio/proyectos-singulares/estudios-de-movilidad-con-big-data/opendata-movilidad).
+
+Full data license is available [here](https://movilidad-opendata.mitma.es/LICENCIA%20de%20datos%20abiertos%20del%20MITMA%2020201203.pdf){target="_blank"}.
+
+## Issues list {.unnumbered}
+
+::: {#issues}
+:::
