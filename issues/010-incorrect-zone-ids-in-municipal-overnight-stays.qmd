@@ -20,6 +20,8 @@ status: "active"
 
 **Expected Results**: The zone IDs in the municipal overnight stays data should be consistent with the zone IDs in the municipal boundaries data (unless the use of district IDs in the residential location column `zona_residencia` is intentional).
 
+*This repository can be opened in a web browser using Binder to explore all issues (under `issues` subfolder) interactively with `R/Rstudio`. Push the button >> [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/e-kotov/mitma-data-issues/HEAD?urlpath=rstudio){target="_blank"}*
+
 ### Steps to Reproduce
 
 1. **Load Data**

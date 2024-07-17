@@ -21,6 +21,8 @@ status: "active"
 
 **Expected Results**: The population data for all municipalities should be available in the CSV file `poblacion_municipios.csv` in the `zonificacion_municipios` folder and/or in the `poblacion.csv` file in the `zonificacion` folder.
 
+*This repository can be opened in a web browser using Binder to explore all issues (under `issues` subfolder) interactively with `R/Rstudio`. Push the button >> [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/e-kotov/mitma-data-issues/HEAD?urlpath=rstudio){target="_blank"}*
+
 ### Steps to Reproduce
 
 1. **Load Data**
