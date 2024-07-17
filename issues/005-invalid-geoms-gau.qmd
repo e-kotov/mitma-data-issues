@@ -1,5 +1,5 @@
 ---
-title: "Invalid Geometries in District Boundaries"
+title: "Invalid Geometries in Large Urban Areas Boundaries"
 from: markdown+emoji
 code-annotations: hover
 date: "2024-07-17"
@@ -12,7 +12,7 @@ issue-importance: medium
 ---
 
 
-**Summary**: There are 3 invalid geometries in the census districts boundaries dataset.
+**Summary**: There are 3 invalid geometries in the Large Urban Areas boundaries dataset.
 
 **Expected Results**: The dataset should not contain any invalid geometries.
 
@@ -31,28 +31,28 @@ library(here)
 library(DT)
 
 
-district_boundaries_data_file <- here("data/raw_data/v2/zonificacion/zonificacion_distritos/zonificacion_distritos.shp")
-district_names_file <- here("data/raw_data/v2/zonificacion/zonificacion_distritos/nombres_distritos.csv")
+gau_boundaries_data_file <- here("data/raw_data/v2/zonificacion/zonificacion_GAU/zonificacion_gaus.shp")
+gau_names_file <- here("data/raw_data/v2/zonificacion/zonificacion_GAU/nombres_gaus.csv")
 ```
 
-Load the data and join the district names to the boundaries.
+Load the data and join the Large Urban Areas names to the boundaries.
 
 
 ```{r}
-district_boundaries <- read_sf(district_boundaries_data_file)
+gau_boundaries <- read_sf(gau_boundaries_data_file)
 
-district_names <- read_delim(district_names_file,
+gau_names <- read_delim(gau_names_file,
     delim = "|", show_col_types = FALSE, name_repair = "unique_quiet")
 
-district_boundaries <- district_boundaries |>
-    left_join(district_names |> select(ID, name), by = c("ID"))
+gau_boundaries <- gau_boundaries |>
+    left_join(gau_names |> select(ID, name), by = c("ID"))
 ```
 
 
 2. **Identify Invalid Geometries**
 
 ```{r}
-district_boundaries_invalid <- !st_is_valid(district_boundaries)
+gau_boundaries_invalid <- !st_is_valid(gau_boundaries)
 ```
 
 ### Results
@@ -60,13 +60,13 @@ district_boundaries_invalid <- !st_is_valid(district_boundaries)
 3. **Number of Invalid Geometries**
 
 ```{r}
-sum(district_boundaries_invalid)
+sum(gau_boundaries_invalid)
 ```
 
-4. **Names of Districts with Invalid Geometries**
+4. **Names of Large Urban Areas with Invalid Geometries**
 
 ```{r}
-DT::datatable(district_boundaries[district_boundaries_invalid,] |> st_drop_geometry())
+DT::datatable(gau_boundaries[gau_boundaries_invalid,] |> st_drop_geometry())
 ```
 
 
@@ -79,7 +79,7 @@ files <- load_latest_v2_xml()
 
 # Filter relevant files
 relevant_files <- files |> 
-  filter(basename(local_path) %in% basename(c(district_boundaries_data_file, district_names_file)) )
+  filter(basename(local_path) %in% basename(c(gau_boundaries_data_file, gau_names_file)) )
 
 # Create HTML links
 relevant_files <- relevant_files |> 
