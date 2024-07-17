@@ -1,0 +1,77 @@
+---
+title: "Missing column names in Large Urban Areas population CSV"
+from: markdown+emoji
+code-annotations: hover
+date: "2024-07-17"
+date-modified: "2024-07-17"
+categories:
+    - tabular data
+    - metadata
+    - "importance: low"
+issue-importance: low
+---
+
+**Summary**: CSV file with Large Urban Areas population data is missing column names.
+
+**Expected Results**: The dataset should have `ID` and `population` columns.
+
+### Steps to Reproduce
+
+1. **Load Data**
+
+Load libraries and define data files.
+
+```{r}
+#| output: false
+
+library(tidyverse)
+library(here)
+library(DT)
+
+gau_population_file <- here("data/raw_data/v2/zonificacion/zonificacion_GAU/poblacion_gaus.csv")
+```
+
+Load the data and join the Large Urban Areas names to the boundaries.
+
+
+```{r}
+gau_population <- read.delim(gau_population_file, sep = "|")
+```
+
+
+### Results
+
+3. **Missing column names**
+
+```{r}
+names(gau_population)
+str(gau_population)
+```
+
+4. **Preview of the Large Urban Areas population table**
+
+```{r}
+DT::datatable(gau_population)
+```
+
+
+
+### Links to the original files
+
+```{r}
+source(here("R/901-download-helpers.R"))
+files <- load_latest_v2_xml()
+
+# Filter relevant files
+relevant_files <- files |> 
+  filter(basename(local_path) %in% basename(c(gau_population_file)) )
+
+# Create HTML links
+relevant_files <- relevant_files |> 
+  mutate(target_url = paste0("<a href='", target_url, "' target='_blank'>", target_url, "</a>"))
+
+# Render the DT table with links
+datatable(relevant_files, escape = FALSE, options = list(pageLength = 5))
+```
+
+
