@@ -43,7 +43,7 @@ comments: false
 
 This is a collection of issues identified (and resolved, if applicable) in the [MITMA open mobility data](https://www.transportes.gob.es/ministerio/proyectos-singulares/estudios-de-movilidad-con-big-data/opendata-movilidad){target="_blank"}
 
-The data in this repository contains *"datos abiertos MITMA" ("MITMA open data")* [@mitma-mobility-2024-v6] downloaded from [this page](https://www.transportes.gob.es/ministerio/proyectos-singulares/estudios-de-movilidad-con-big-data/opendata-movilidad).
+The data in this repository contains *"datos abiertos MITMA" ("MITMA open data")* [@mitma-mobility-2024-v6] downloaded from [this page](https://www.transportes.gob.es/ministerio/proyectos-singulares/estudios-de-movilidad-con-big-data/opendata-movilidad){target="_blank"}.
 
 Full data license is available [here](https://movilidad-opendata.mitma.es/LICENCIA%20de%20datos%20abiertos%20del%20MITMA%2020201203.pdf){target="_blank"}.
 
