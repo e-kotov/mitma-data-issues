@@ -1,0 +1,114 @@
+---
+title: "District zone IDs in municipal overnight stays data"
+from: markdown+emoji
+code-annotations: hover
+date: "2024-07-16"
+date-modified: "2024-07-17"
+categories:
+    - tabular data
+    - missing data
+    - "importance: high"
+issue-importance: high
+status: "active"
+---
+
+---
+
+**Status**: {{< meta status >}}
+
+**Summary**: The zone IDs in the municipal overnight stays data are not consistent with the zone IDs in the municipal boundaries data. The zone IDs in the municipal overnight stays data for the residential location column `zona_residencia` are a combination of district and municipal IDs.
+
+**Expected Results**: The zone IDs in the municipal overnight stays data should be consistent with the zone IDs in the municipal boundaries data (unless the use of district IDs in the residential location column `zona_residencia` is intentional).
+
+### Steps to Reproduce
+
+1. **Load Data**
+
+Load libraries and define data files.
+
+```{r}
+#| output: false
+
+library(tidyverse)
+library(sf)
+library(here)
+library(DT)
+
+
+overnight_stays_file <- here("data/raw_data/v2/estudios_basicos/por-municipios/pernoctaciones/ficheros-diarios/2022-01/20220101_Pernoctaciones_municipios.csv.gz")
+municipal_boundaries_data_file <- here("data/raw_data/v2/zonificacion/zonificacion_municipios/zonificacion_municipios.shp")
+district_boundaries_data_file <- here("data/raw_data/v2/zonificacion/zonificacion_distritos/zonificacion_distritos.shp")
+```
+
+Load the data.
+
+
+```{r}
+overnight_stays <- readr::read_delim(overnight_stays_file, delim = "|", show_col_types = FALSE, name_repair = "unique_quiet")
+# municipal_boundaries <- read_sf(municipal_boundaries_data_file) |> filter(!grepl("PT|FR|externo", ID))
+# district_boundaries <- read_sf(district_boundaries_data_file) |> filter(!grepl("PT|FR|externo", ID))
+municipal_boundaries <- read_sf(municipal_boundaries_data_file)
+district_boundaries <- read_sf(district_boundaries_data_file)
+```
+
+```{r}
+glimpse(overnight_stays)
+glimpse(municipal_boundaries)
+glimpse(district_boundaries)
+```
+
+
+### Results
+
+2. **Not all residence location IDs in the municipal level overnight stays dataset can be found in the municipal boundaries dataset.**
+
+Not all residence location (`zona_residencia`) IDs in the municipal level overnight stays dataset can be found in the municipal boundaries dataset. Residence locations in municipal level overnight stays uses district IDs in addition to municipal IDs. That is, just using the municipal boundaries dataset is not enough to match all the residence locations in the overnight stays dataset.
+
+```{r}
+sum(!unique(overnight_stays$zona_residencia) %in% unique(municipal_boundaries$ID))
+```
+
+Meanwhile, all residence location (`zona_residencia`) IDs in the municipal level overnight stays can be found in the district boundaries dataset.
+
+```{r}
+sum(!unique(overnight_stays$zona_residencia) %in% unique(district_boundaries$ID))
+```
+
+Only municipal IDs are used in the `zona_pernoctacion` column of the overnight stays dataset.
+
+```{r}
+sum(!unique(overnight_stays$zona_pernoctacion) %in% unique(municipal_boundaries$ID))
+```
+
+
+3. **Sample of rows with residence location IDs coming from district breakdown in the municipal boundaries overnight stays**
+
+```{r}
+DT::datatable(overnight_stays |> filter(!zona_residencia %in% unique(municipal_boundaries$ID)) |> sample_n(100))
+```
+
+
+
+### Links to the original files
+
+```{r}
+source(here("R/901-download-helpers.R"))
+files <- load_latest_v2_xml()
+
+# Filter relevant files
+relevant_files <- files |> 
+  filter(basename(local_path) %in% basename(c(
+    overnight_stays_file,
+    municipal_boundaries_data_file,
+    district_boundaries_data_file
+  )) )
+
+# Create HTML links
+relevant_files <- relevant_files |> 
+  mutate(target_url = paste0("<a href='", target_url, "' target='_blank'>", target_url, "</a>"))
+
+# Render the DT table with links
+datatable(relevant_files, escape = FALSE, options = list(pageLength = 5))
+```
+
+
