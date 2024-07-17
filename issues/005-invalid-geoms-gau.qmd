@@ -9,8 +9,12 @@ categories:
     - geometry
     - "importance: medium"
 issue-importance: medium
+status: "active"
 ---
 
+---
+
+**Status**: {{< meta status >}}
 
 **Summary**: There are 3 invalid geometries in the Large Urban Areas boundaries dataset.
 

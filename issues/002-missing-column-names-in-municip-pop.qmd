@@ -9,7 +9,12 @@ categories:
     - metadata
     - "importance: low"
 issue-importance: low
+status: "active"
 ---
+
+---
+
+**Status**: {{< meta status >}}
 
 **Summary**: CSV file with municipal population data is missing column names.
 

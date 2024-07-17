@@ -1,5 +1,5 @@
 ---
-title: "District population CSV missing population counts"
+title: "Large Urban Areas population CSV missing population counts"
 from: markdown+emoji
 code-annotations: hover
 date: "2024-07-16"
@@ -16,9 +16,9 @@ status: "active"
 
 **Status**: {{< meta status >}}
 
-**Summary**: The dataset contains missing population counts for 49 districts in the CSV file `poblacion_distritos.csv` in the `zonificacion_distritos` folder, as well as in the `poblacion.csv` file in the `zonificacion` folder.
+**Summary**: The dataset contains missing population counts for XX Large Urban Areas in the CSV file `poblacion_gaus.csv` in the `zonificacion_GAU` folder, as well as in the `poblacion.csv` file in the `zonificacion` folder.
 
-**Expected Results**: The population data for all districts should be available in the CSV file `poblacion_distritos.csv` in the `zonificacion_distritos` folder and/or in the `poblacion.csv` file in the `zonificacion` folder.
+**Expected Results**: The population data for all Large Urban Areas should be available in the CSV file `poblacion_gaus.csv` in the `zonificacion_GAU` folder and/or in the `poblacion.csv` file in the `zonificacion` folder.
 
 ### Steps to Reproduce
 
@@ -35,9 +35,9 @@ library(here)
 library(DT)
 
 
-district_boundaries_data_file <- here("data/raw_data/v2/zonificacion/zonificacion_distritos/zonificacion_distritos.shp")
-district_names_file <- here("data/raw_data/v2/zonificacion/zonificacion_distritos/nombres_distritos.csv")
-district_population_file <- here("data/raw_data/v2/zonificacion/zonificacion_distritos/poblacion_distritos.csv")
+gau_boundaries_data_file <- here("data/raw_data/v2/zonificacion/zonificacion_GAU/zonificacion_gaus.shp")
+gau_names_file <- here("data/raw_data/v2/zonificacion/zonificacion_GAU/nombres_gaus.csv")
+gau_population_file <- here("data/raw_data/v2/zonificacion/zonificacion_GAU/poblacion_gaus.csv")
 all_population_file <- here("data/raw_data/v2/zonificacion/poblacion.csv")
 ```
 
@@ -45,23 +45,23 @@ Load the data and join the district names to the boundaries, as well as populati
 
 
 ```{r}
-district_boundaries <- read_sf(district_boundaries_data_file)
-district_boundaries_spain_only <- district_boundaries |> 
+gau_boundaries <- read_sf(gau_boundaries_data_file)
+gau_boundaries_spain_only <- gau_boundaries |> 
     filter(! grepl("FR|PT|externo", ID) )
 
-district_names <- read_delim(district_names_file,
+gau_names <- read_delim(gau_names_file,
     delim = "|", show_col_types = FALSE, name_repair = "unique_quiet")
 
-district_population <- read_delim(district_population_file, col_names = c("ID", "population"),
+gau_population <- read_delim(gau_population_file, col_names = c("ID", "population"),
     delim = "|", show_col_types = FALSE, name_repair = "unique_quiet")
 
 all_population <- read_delim(all_population_file,
     delim = "|", show_col_types = FALSE, name_repair = "unique_quiet")
 
-district_boundaries_spain_only <- district_boundaries_spain_only |>
-    left_join(district_names |> select(ID, name), by = c("ID")) |> 
-    left_join(district_population, by = c("ID")) |> 
-    left_join(all_population |>
+gau_boundaries_spain_only <- gau_boundaries_spain_only |>
+    left_join(gau_names |> select(ID, name), by = c("ID")) |> 
+    left_join(gau_population, by = c("ID")) |> 
+        left_join(all_population |>
                   group_by(distrito) |>
                   summarise(population_all = sum(poblacion, na.rm = TRUE), .groups = "drop") |> 
                   rename(ID = distrito),
@@ -70,22 +70,22 @@ district_boundaries_spain_only <- district_boundaries_spain_only |>
 
 ### Results
 
-2. **Missing population (loaded from the `poblacion_distritos.csv` in `zonificacion_distritos` folder)**
+2. **Missing population (loaded from the `poblacion_gaus.csv` in `zonificacion_GAU` folder)**
 
 
 ```{r}
-district_boundaries_spain_only |>
+gau_boundaries_spain_only |>
     filter(is.na(population)) |>
     nrow()
 ```
 
 
-3. **Population data for districts also unavailable in the `poblacion.csv` in the `zonificacion` **
+3. **Population data for Large Urban Areas is also unavailable in the `poblacion.csv` in the `zonificacion` **
 
 There are no population counts for these districts in the `poblacion.csv` file either.
 
 ```{r}
-district_boundaries_spain_only |>
+gau_boundaries_spain_only |>
     filter(!is.na(population_all)) |>
     filter(population_all == 0) |> 
     nrow()
@@ -95,7 +95,7 @@ district_boundaries_spain_only |>
 4. **Names of districts with missing population data**
 
 ```{r}
-DT::datatable(district_boundaries_spain_only |>
+DT::datatable(gau_boundaries_spain_only |>
                   st_drop_geometry() |> 
                   filter(is.na(population))
                   )
@@ -111,8 +111,8 @@ files <- load_latest_v2_xml()
 
 # Filter relevant files
 relevant_files <- files |> 
-  filter(basename(local_path) %in% basename(c(district_boundaries_data_file, district_names_file,
-                                              district_population_file, all_population_file)) )
+  filter(basename(local_path) %in% basename(c(gau_boundaries_data_file, gau_names_file,
+                                              gau_population_file, all_population_file)) )
 
 # Create HTML links
 relevant_files <- relevant_files |> 

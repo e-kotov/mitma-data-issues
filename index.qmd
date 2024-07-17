@@ -9,12 +9,12 @@ listing:
   max-description-length: 175
   categories: true
   sort: "issue-importance desc"
-  sort-ui: [date, date-modified, issue-importance]
+  sort-ui: [date, date-modified, issue-importance, status]
   date-format: iso
   # filter-ui: [date, date-modified, title, categories, issue-number]
   # fields: [date, date-modified, title, categories, issue-number]
-  filter-ui: [date, date-modified, title, categories, issue-importance]
-  fields: [date, date-modified, title, categories, issue-importance]
+  filter-ui: [date, date-modified, title, categories, issue-importance, status]
+  fields: [date, date-modified, title, categories, issue-importance, status]
 page-layout: full
 title-block-banner: false
 authors:

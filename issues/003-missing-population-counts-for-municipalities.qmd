@@ -7,10 +7,15 @@ date-modified: "2024-07-16"
 categories:
     - tabular data
     - missing data
-    - "importance: medium"
-issue-importance: medium
+    - "importance: low"
+issue-importance: low
+status: "active"
 ---
 
+
+---
+
+**Status**: {{< meta status >}}
 
 **Summary**: The dataset contains missing population counts for 49 municipalities in the CSV file `poblacion_municipios.csv` in the `zonificacion_municipios` folder, as well as in the `poblacion.csv` file in the `zonificacion` folder.
 
