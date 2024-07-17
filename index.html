@@ -101,9 +101,9 @@ div.csl-indent {
     }
 
     const options = {
-      valueNames: ['listing-date','listing-date-modified','listing-title','listing-categories','listing-issue-importance',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-date-modified-sort'] }],
+      valueNames: ['listing-date','listing-date-modified','listing-title','listing-categories','listing-issue-importance','listing-status',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-date-modified-sort'] }],
       
-      searchColumns: ["listing-date","listing-date-modified","listing-title","listing-categories","listing-issue-importance"],
+      searchColumns: ["listing-date","listing-date-modified","listing-title","listing-categories","listing-issue-importance","listing-status"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -233,7 +233,7 @@ window.Quarto = {
   <li><a href="#issues-list" id="toc-issues-list" class="nav-link active" data-scroll-target="#issues-list">Issues list</a></li>
   </ul>
 </nav>
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(9)</span></div><div class="category" data-category="geometry">geometry <span class="quarto-category-count">(3)</span></div><div class="category" data-category="importance: low">importance: low <span class="quarto-category-count">(3)</span></div><div class="category" data-category="importance: medium">importance: medium <span class="quarto-category-count">(6)</span></div><div class="category" data-category="metadata">metadata <span class="quarto-category-count">(3)</span></div><div class="category" data-category="missing data">missing data <span class="quarto-category-count">(3)</span></div><div class="category" data-category="spatial data">spatial data <span class="quarto-category-count">(3)</span></div><div class="category" data-category="tabular data">tabular data <span class="quarto-category-count">(6)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(9)</span></div><div class="category" data-category="geometry">geometry <span class="quarto-category-count">(3)</span></div><div class="category" data-category="importance: low">importance: low <span class="quarto-category-count">(6)</span></div><div class="category" data-category="importance: medium">importance: medium <span class="quarto-category-count">(3)</span></div><div class="category" data-category="metadata">metadata <span class="quarto-category-count">(3)</span></div><div class="category" data-category="missing data">missing data <span class="quarto-category-count">(3)</span></div><div class="category" data-category="spatial data">spatial data <span class="quarto-category-count">(3)</span></div><div class="category" data-category="tabular data">tabular data <span class="quarto-category-count">(6)</span></div></div></div>
 <!-- main -->
 <main class="content column-body" id="quarto-document-content">
 
@@ -303,6 +303,9 @@ window.Quarto = {
          <option value="listing-issue-importance" data-direction="asc">
           issue-importance
         </option>
+         <option value="listing-status" data-direction="asc">
+          status
+        </option>
      </select>
   </div>
     <div class="input-group input-group-sm quarto-listing-filter">
@@ -328,10 +331,13 @@ Categories
 <th>
 <a class="sort" data-sort="listing-issue-importance" onclick="if (this.classList.contains('sort-asc')) { this.classList.add('sort-desc'); this.classList.remove('sort-asc') } else { this.classList.add('sort-asc'); this.classList.remove('sort-desc')} return false;">issue-importance</a>
 </th>
+<th>
+<a class="sort" data-sort="listing-status" onclick="if (this.classList.contains('sort-asc')) { this.classList.add('sort-desc'); this.classList.remove('sort-asc') } else { this.classList.add('sort-asc'); this.classList.remove('sort-desc')} return false;">status</a>
+</th>
 </tr>
 </thead>
 <tbody class="list">
-<tr data-index="0" data-categories="spatial data,geometry,importance: medium" data-listing-date-sort="1721080800000" data-listing-file-modified-sort="1721210510112" data-listing-date-modified-sort="1721080800000" data-listing-reading-time-sort="1" data-listing-word-count-sort="141" data-listing-title-sort="Invalid Geometries in Municipality Boundaries" data-listing-filename-sort="001-invalid-geoms-municipalities.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="0" data-categories="spatial data,geometry,importance: medium" data-listing-date-sort="1721088000000" data-listing-file-modified-sort="1721213509253" data-listing-date-modified-sort="1721088000000" data-listing-reading-time-sort="1" data-listing-word-count-sort="145" data-listing-title-sort="Invalid Geometries in Municipality Boundaries" data-listing-filename-sort="001-invalid-geoms-municipalities.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <span class="listing-date">2024-07-16</span>
@@ -348,26 +354,11 @@ Categories
 <td>
 <span class="listing-issue-importance">medium</span>
 </td>
-</tr>
-<tr data-index="1" data-categories="tabular data,missing data,importance: medium" data-listing-date-sort="1721080800000" data-listing-file-modified-sort="1721212022091" data-listing-date-modified-sort="1721080800000" data-listing-reading-time-sort="3" data-listing-word-count-sort="493" data-listing-title-sort="Municipal population CSV missing population counts" data-listing-filename-sort="003-missing-population-counts-for-municipalities.qmd" onclick="href = this.querySelector('a').getAttribute('href');
- if (href) { window.location=href ; return false; }">
 <td>
-<span class="listing-date">2024-07-16</span>
-</td>
-<td>
-<span class="listing-date-modified">2024-07-16</span>
-</td>
-<td>
-<a href="./issues/003-missing-population-counts-for-municipalities.html" class="title listing-title">Municipal population CSV missing population counts</a>
-</td>
-<td>
-<span class="listing-categories">tabular data, missing data, importance: medium</span>
-</td>
-<td>
-<span class="listing-issue-importance">medium</span>
+<span class="listing-status">active</span>
 </td>
 </tr>
-<tr data-index="2" data-categories="spatial data,geometry,importance: medium" data-listing-date-sort="1721167200000" data-listing-file-modified-sort="1721210883645" data-listing-date-modified-sort="1721167200000" data-listing-reading-time-sort="1" data-listing-word-count-sort="142" data-listing-title-sort="Invalid Geometries in District Boundaries" data-listing-filename-sort="004-invalid-geoms-districts.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="1" data-categories="spatial data,geometry,importance: medium" data-listing-date-sort="1721174400000" data-listing-file-modified-sort="1721213509253" data-listing-date-modified-sort="1721174400000" data-listing-reading-time-sort="1" data-listing-word-count-sort="146" data-listing-title-sort="Invalid Geometries in District Boundaries" data-listing-filename-sort="004-invalid-geoms-districts.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <span class="listing-date">2024-07-17</span>
@@ -384,8 +375,11 @@ Categories
 <td>
 <span class="listing-issue-importance">medium</span>
 </td>
+<td>
+<span class="listing-status">active</span>
+</td>
 </tr>
-<tr data-index="3" data-categories="spatial data,geometry,importance: medium" data-listing-date-sort="1721167200000" data-listing-file-modified-sort="1721210868959" data-listing-date-modified-sort="1721167200000" data-listing-reading-time-sort="1" data-listing-word-count-sort="147" data-listing-title-sort="Invalid Geometries in Large Urban Areas Boundaries" data-listing-filename-sort="005-invalid-geoms-gau.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="2" data-categories="spatial data,geometry,importance: medium" data-listing-date-sort="1721174400000" data-listing-file-modified-sort="1721213509253" data-listing-date-modified-sort="1721174400000" data-listing-reading-time-sort="1" data-listing-word-count-sort="151" data-listing-title-sort="Invalid Geometries in Large Urban Areas Boundaries" data-listing-filename-sort="005-invalid-geoms-gau.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <span class="listing-date">2024-07-17</span>
@@ -402,44 +396,11 @@ Categories
 <td>
 <span class="listing-issue-importance">medium</span>
 </td>
-</tr>
-<tr data-index="4" data-categories="tabular data,missing data,importance: medium" data-listing-date-sort="1721080800000" data-listing-file-modified-sort="1721212049766" data-listing-date-modified-sort="1721167200000" data-listing-reading-time-sort="3" data-listing-word-count-sort="493" data-listing-title-sort="District population CSV missing population counts" data-listing-filename-sort="008-missing-population-counts-for-districts.qmd" onclick="href = this.querySelector('a').getAttribute('href');
- if (href) { window.location=href ; return false; }">
 <td>
-<span class="listing-date">2024-07-16</span>
-</td>
-<td>
-<span class="listing-date-modified">2024-07-17</span>
-</td>
-<td>
-<a href="./issues/008-missing-population-counts-for-districts.html" class="title listing-title">District population CSV missing population counts</a>
-</td>
-<td>
-<span class="listing-categories">tabular data, missing data, importance: medium</span>
-</td>
-<td>
-<span class="listing-issue-importance">medium</span>
+<span class="listing-status">active</span>
 </td>
 </tr>
-<tr data-index="5" data-categories="tabular data,missing data,importance: medium" data-listing-date-sort="1721080800000" data-listing-file-modified-sort="1721212764653" data-listing-date-modified-sort="1721167200000" data-listing-reading-time-sort="3" data-listing-word-count-sort="504" data-listing-title-sort="Large Urban Areas population CSV missing population counts" data-listing-filename-sort="009-missing-population-counts-for-large-urban-ares.qmd" onclick="href = this.querySelector('a').getAttribute('href');
- if (href) { window.location=href ; return false; }">
-<td>
-<span class="listing-date">2024-07-16</span>
-</td>
-<td>
-<span class="listing-date-modified">2024-07-17</span>
-</td>
-<td>
-<a href="./issues/009-missing-population-counts-for-large-urban-ares.html" class="title listing-title">Large Urban Areas population CSV missing population counts</a>
-</td>
-<td>
-<span class="listing-categories">tabular data, missing data, importance: medium</span>
-</td>
-<td>
-<span class="listing-issue-importance">medium</span>
-</td>
-</tr>
-<tr data-index="6" data-categories="tabular data,metadata,importance: low" data-listing-date-sort="1721167200000" data-listing-file-modified-sort="1721210513512" data-listing-date-modified-sort="1721167200000" data-listing-reading-time-sort="1" data-listing-word-count-sort="106" data-listing-title-sort="Missing column names in municipal population CSV" data-listing-filename-sort="002-missing-column-names-in-municip-pop.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="3" data-categories="tabular data,metadata,importance: low" data-listing-date-sort="1721174400000" data-listing-file-modified-sort="1721213509253" data-listing-date-modified-sort="1721174400000" data-listing-reading-time-sort="1" data-listing-word-count-sort="110" data-listing-title-sort="Missing column names in municipal population CSV" data-listing-filename-sort="002-missing-column-names-in-municip-pop.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <span class="listing-date">2024-07-17</span>
@@ -456,8 +417,11 @@ Categories
 <td>
 <span class="listing-issue-importance">low</span>
 </td>
+<td>
+<span class="listing-status">active</span>
+</td>
 </tr>
-<tr data-index="7" data-categories="tabular data,metadata,importance: low" data-listing-date-sort="1721167200000" data-listing-file-modified-sort="1721211054607" data-listing-date-modified-sort="1721167200000" data-listing-reading-time-sort="1" data-listing-word-count-sort="106" data-listing-title-sort="Missing column names in district population CSV" data-listing-filename-sort="006-missing-column-names-in-district-pop.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="4" data-categories="tabular data,metadata,importance: low" data-listing-date-sort="1721174400000" data-listing-file-modified-sort="1721213509253" data-listing-date-modified-sort="1721174400000" data-listing-reading-time-sort="1" data-listing-word-count-sort="110" data-listing-title-sort="Missing column names in district population CSV" data-listing-filename-sort="006-missing-column-names-in-district-pop.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <span class="listing-date">2024-07-17</span>
@@ -474,8 +438,11 @@ Categories
 <td>
 <span class="listing-issue-importance">low</span>
 </td>
+<td>
+<span class="listing-status">active</span>
+</td>
 </tr>
-<tr data-index="8" data-categories="tabular data,metadata,importance: low" data-listing-date-sort="1721167200000" data-listing-file-modified-sort="1721211384924" data-listing-date-modified-sort="1721167200000" data-listing-reading-time-sort="1" data-listing-word-count-sort="112" data-listing-title-sort="Missing column names in Large Urban Areas population CSV" data-listing-filename-sort="007-missing-column-names-for-large-urban-areas.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="5" data-categories="tabular data,metadata,importance: low" data-listing-date-sort="1721174400000" data-listing-file-modified-sort="1721213509253" data-listing-date-modified-sort="1721174400000" data-listing-reading-time-sort="1" data-listing-word-count-sort="116" data-listing-title-sort="Missing column names in Large Urban Areas population CSV" data-listing-filename-sort="007-missing-column-names-for-large-urban-areas.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <span class="listing-date">2024-07-17</span>
@@ -491,6 +458,72 @@ Categories
 </td>
 <td>
 <span class="listing-issue-importance">low</span>
+</td>
+<td>
+<span class="listing-status">active</span>
+</td>
+</tr>
+<tr data-index="6" data-categories="tabular data,missing data,importance: low" data-listing-date-sort="1721088000000" data-listing-file-modified-sort="1721213509253" data-listing-date-modified-sort="1721088000000" data-listing-reading-time-sort="3" data-listing-word-count-sort="497" data-listing-title-sort="Municipal population CSV missing population counts" data-listing-filename-sort="003-missing-population-counts-for-municipalities.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+ if (href) { window.location=href ; return false; }">
+<td>
+<span class="listing-date">2024-07-16</span>
+</td>
+<td>
+<span class="listing-date-modified">2024-07-16</span>
+</td>
+<td>
+<a href="./issues/003-missing-population-counts-for-municipalities.html" class="title listing-title">Municipal population CSV missing population counts</a>
+</td>
+<td>
+<span class="listing-categories">tabular data, missing data, importance: low</span>
+</td>
+<td>
+<span class="listing-issue-importance">low</span>
+</td>
+<td>
+<span class="listing-status">active</span>
+</td>
+</tr>
+<tr data-index="7" data-categories="tabular data,missing data,importance: low" data-listing-date-sort="1721088000000" data-listing-file-modified-sort="1721213509253" data-listing-date-modified-sort="1721174400000" data-listing-reading-time-sort="3" data-listing-word-count-sort="497" data-listing-title-sort="District population CSV missing population counts" data-listing-filename-sort="008-missing-population-counts-for-districts.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+ if (href) { window.location=href ; return false; }">
+<td>
+<span class="listing-date">2024-07-16</span>
+</td>
+<td>
+<span class="listing-date-modified">2024-07-17</span>
+</td>
+<td>
+<a href="./issues/008-missing-population-counts-for-districts.html" class="title listing-title">District population CSV missing population counts</a>
+</td>
+<td>
+<span class="listing-categories">tabular data, missing data, importance: low</span>
+</td>
+<td>
+<span class="listing-issue-importance">low</span>
+</td>
+<td>
+<span class="listing-status">active</span>
+</td>
+</tr>
+<tr data-index="8" data-categories="tabular data,missing data,importance: low" data-listing-date-sort="1721088000000" data-listing-file-modified-sort="1721213509253" data-listing-date-modified-sort="1721174400000" data-listing-reading-time-sort="3" data-listing-word-count-sort="508" data-listing-title-sort="Large Urban Areas population CSV missing population counts" data-listing-filename-sort="009-missing-population-counts-for-large-urban-ares.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+ if (href) { window.location=href ; return false; }">
+<td>
+<span class="listing-date">2024-07-16</span>
+</td>
+<td>
+<span class="listing-date-modified">2024-07-17</span>
+</td>
+<td>
+<a href="./issues/009-missing-population-counts-for-large-urban-ares.html" class="title listing-title">Large Urban Areas population CSV missing population counts</a>
+</td>
+<td>
+<span class="listing-categories">tabular data, missing data, importance: low</span>
+</td>
+<td>
+<span class="listing-issue-importance">low</span>
+</td>
+<td>
+<span class="listing-status">active</span>
 </td>
 </tr>
 </tbody>
