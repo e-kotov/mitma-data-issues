@@ -3,8 +3,13 @@
     "listing": "/index.html",
     "items": [
       "/issues/001-invalid-geoms-municipalities.html",
-      "/issues/002-missing-column-names-for-municipalities.html",
-      "/issues/003-missing-population-data-for-municipalities.html"
+      "/issues/003-missing-population-counts-for-municipalities.html",
+      "/issues/004-invalid-geoms-districts.html",
+      "/issues/005-invalid-geoms-gau.html",
+      "/issues/008-missing-population-counts-for-districts.html",
+      "/issues/002-missing-column-names-in-municip-pop.html",
+      "/issues/006-missing-column-names-in-district-pop.html",
+      "/issues/007-missing-column-names-for-large-urban-areas.html"
     ]
   }
 ]
