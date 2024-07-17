@@ -1,6 +1,8 @@
 # Issues in MITMA open mobility data
 
 
+## Run this repository in a web browser using Binder. Push the button \>\> [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/e-kotov/mitma-data-issues/HEAD?urlpath=rstudio)
+
 Go to the website <https://ekotov.pro/mitma-data-issues/> to see the
 issues catalogue and comment on them.
 
