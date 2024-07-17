@@ -7,6 +7,7 @@
       "/issues/004-invalid-geoms-districts.html",
       "/issues/005-invalid-geoms-gau.html",
       "/issues/008-missing-population-counts-for-districts.html",
+      "/issues/009-missing-population-counts-for-large-urban-ares.html",
       "/issues/002-missing-column-names-in-municip-pop.html",
       "/issues/006-missing-column-names-in-district-pop.html",
       "/issues/007-missing-column-names-for-large-urban-areas.html"
