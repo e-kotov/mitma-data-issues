@@ -10,7 +10,8 @@
       "/issues/007-missing-column-names-for-large-urban-areas.html",
       "/issues/003-missing-population-counts-for-municipalities.html",
       "/issues/008-missing-population-counts-for-districts.html",
-      "/issues/009-missing-population-counts-for-large-urban-ares.html"
+      "/issues/009-missing-population-counts-for-large-urban-ares.html",
+      "/issues/010-incorrect-zone-ids-in-municipal-overnight-stays.html"
     ]
   }
 ]
