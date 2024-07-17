@@ -4,11 +4,11 @@ from: markdown+emoji
 code-annotations: hover
 date: "2024-07-17"
 date-modified: "2024-07-17"
-issue-importance: low
 categories:
     - tabular data
     - metadata
     - "importance: low"
+issue-importance: low
 ---
 
 **Summary**: CSV file with municipal population data is missing column names.

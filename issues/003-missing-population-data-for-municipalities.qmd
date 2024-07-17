@@ -4,11 +4,11 @@ from: markdown+emoji
 code-annotations: hover
 date: "2024-07-16"
 date-modified: "2024-07-16"
-issue-importance: low
 categories:
-    - spatial data
-    - geometry
+    - tabular data
+    - missing data
     - "importance: low"
+issue-importance: low
 ---
 
 

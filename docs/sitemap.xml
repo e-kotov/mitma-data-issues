@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://e-kotov.github.io/mitma-data-issues/issues/003-invalid-geoms-municipalities.html</loc>
+    <loc>https://e-kotov.github.io/mitma-data-issues/issues/003-missing-population-data-for-municipalities.html</loc>
     <lastmod>2024-07-17T08:53:14.510Z</lastmod>
   </url>
   <url>
-    <loc>https://e-kotov.github.io/mitma-data-issues/issues/002-missing-population-data-for-municipalities.html</loc>
+    <loc>https://e-kotov.github.io/mitma-data-issues/issues/002-missing-column-names-for-municipalities.html</loc>
     <lastmod>2024-07-17T08:53:10.249Z</lastmod>
   </url>
   <url>
     <loc>https://e-kotov.github.io/mitma-data-issues/index.html</loc>
-    <lastmod>2024-07-17T08:54:06.599Z</lastmod>
+    <lastmod>2024-07-17T09:57:53.737Z</lastmod>
   </url>
   <url>
     <loc>https://e-kotov.github.io/mitma-data-issues/license.html</loc>

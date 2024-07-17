@@ -3,12 +3,12 @@ title: "Issues in MITMA open mobility data"
 listing:
   id: "issues"
   contents: issues
-  sort: "date desc"
   type: table
   table-hover: true
   image-align: right
   max-description-length: 175
   categories: true
+  sort: "issue-importance desc"
   sort-ui: [date, date-modified, issue-importance]
   date-format: iso
   # filter-ui: [date, date-modified, title, categories, issue-number]
