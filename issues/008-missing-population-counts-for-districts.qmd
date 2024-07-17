@@ -1,0 +1,121 @@
+---
+title: "District population CSV missing population counts"
+from: markdown+emoji
+code-annotations: hover
+date: "2024-07-16"
+date-modified: "2024-07-17"
+categories:
+    - tabular data
+    - missing data
+    - "importance: medium"
+issue-importance: medium
+---
+
+
+**Summary**: The dataset contains missing population counts for 49 districts in the CSV file `poblacion_distritos.csv` in the `zonificacion_distritos` folder, as well as in the `poblacion.csv` file in the `zonificacion` folder.
+
+**Expected Results**: The population data for all districts should be available in the CSV file `poblacion_distritos.csv` in the `zonificacion_distritos` folder and/or in the `poblacion.csv` file in the `zonificacion` folder.
+
+### Steps to Reproduce
+
+1. **Load Data**
+
+Load libraries and define data files.
+
+```{r}
+#| output: false
+
+library(tidyverse)
+library(sf)
+library(here)
+library(DT)
+
+
+district_boundaries_data_file <- here("data/raw_data/v2/zonificacion/zonificacion_distritos/zonificacion_distritos.shp")
+district_names_file <- here("data/raw_data/v2/zonificacion/zonificacion_distritos/nombres_distritos.csv")
+district_population_file <- here("data/raw_data/v2/zonificacion/zonificacion_distritos/poblacion_distritos.csv")
+all_population_file <- here("data/raw_data/v2/zonificacion/poblacion.csv")
+```
+
+Load the data and join the district names to the boundaries, as well as population from all population file and districts population file.
+
+
+```{r}
+district_boundaries <- read_sf(district_boundaries_data_file)
+district_boundaries_spain_only <- district_boundaries |> 
+    filter(! grepl("FR|PT|externo", ID) )
+
+district_names <- read_delim(district_names_file,
+    delim = "|", show_col_types = FALSE, name_repair = "unique_quiet")
+
+district_population <- read_delim(district_population_file, col_names = c("ID", "population"),
+    delim = "|", show_col_types = FALSE, name_repair = "unique_quiet")
+
+all_population <- read_delim(all_population_file,
+    delim = "|", show_col_types = FALSE, name_repair = "unique_quiet")
+
+district_boundaries_spain_only <- district_boundaries_spain_only |>
+    left_join(district_names |> select(ID, name), by = c("ID")) |> 
+    left_join(district_population, by = c("ID")) |> 
+    left_join(all_population |>
+                  group_by(distrito) |>
+                  summarise(population_all = sum(poblacion, na.rm = TRUE), .groups = "drop") |> 
+                  rename(ID = distrito),
+              by = c("ID"))
+```
+
+### Results
+
+2. **Missing population (loaded from the `poblacion_distritos.csv` in `zonificacion_distritos` folder)**
+
+
+```{r}
+district_boundaries_spain_only |>
+    filter(is.na(population)) |>
+    nrow()
+```
+
+
+3. **Population data for districts also unavailable in the `poblacion.csv` in the `zonificacion` **
+
+There are no population counts for these districts in the `poblacion.csv` file either.
+
+```{r}
+district_boundaries_spain_only |>
+    filter(!is.na(population_all)) |>
+    filter(population_all == 0) |> 
+    nrow()
+```
+
+
+4. **Names of districts with missing population data**
+
+```{r}
+DT::datatable(district_boundaries_spain_only |>
+                  st_drop_geometry() |> 
+                  filter(is.na(population))
+                  )
+```
+
+
+
+### Links to the original files
+
+```{r}
+source(here("R/901-download-helpers.R"))
+files <- load_latest_v2_xml()
+
+# Filter relevant files
+relevant_files <- files |> 
+  filter(basename(local_path) %in% basename(c(district_boundaries_data_file, district_names_file,
+                                              district_population_file, all_population_file)) )
+
+# Create HTML links
+relevant_files <- relevant_files |> 
+  mutate(target_url = paste0("<a href='", target_url, "' target='_blank'>", target_url, "</a>"))
+
+# Render the DT table with links
+datatable(relevant_files, escape = FALSE, options = list(pageLength = 5))
+```
+
+

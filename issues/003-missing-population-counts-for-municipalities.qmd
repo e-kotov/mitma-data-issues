@@ -7,14 +7,14 @@ date-modified: "2024-07-16"
 categories:
     - tabular data
     - missing data
-    - "importance: low"
-issue-importance: low
+    - "importance: medium"
+issue-importance: medium
 ---
 
 
-**Summary**: The dataset contains missing population counts for 49 municipalities in the CSV file `poblacion_municipios.csv` in the `zonificacion_municipios` folder. The population data is however available in the `poblacion.csv` file in the `zonificacion` folder, therefore issue importance is relatively low.
+**Summary**: The dataset contains missing population counts for 49 municipalities in the CSV file `poblacion_municipios.csv` in the `zonificacion_municipios` folder, as well as in the `poblacion.csv` file in the `zonificacion` folder.
 
-**Expected Results**: The population data for all municipalities should be available in the CSV file `poblacion_municipios.csv` in the `zonificacion_municipios` folder.
+**Expected Results**: The population data for all municipalities should be available in the CSV file `poblacion_municipios.csv` in the `zonificacion_municipios` folder and/or in the `poblacion.csv` file in the `zonificacion` folder.
 
 ### Steps to Reproduce
 
@@ -37,7 +37,7 @@ municipality_population_file <- here("data/raw_data/v2/zonificacion/zonificacion
 all_population_file <- here("data/raw_data/v2/zonificacion/poblacion.csv")
 ```
 
-Load the data and join the municipality names to the boundaries.
+Load the data and join the municipality names to the boundaries, as well as population from all population file and municipality population file.
 
 
 ```{r}
@@ -76,13 +76,14 @@ municipality_boundaries_spain_only |>
 ```
 
 
-3. **Population data for municipalities actually available in the `poblacion.csv` in the `zonificacion` **
+3. **Population data for municipalities also unavailable in the `poblacion.csv` in the `zonificacion` **
 
-There are no missing values.
+There are no population counts for these districts in the `poblacion.csv` file either.
 
 ```{r}
 municipality_boundaries_spain_only |>
-    filter(is.na(population_all)) |>
+    filter(!is.na(population_all)) |>
+    filter(population_all == 0) |> 
     nrow()
 ```
 
