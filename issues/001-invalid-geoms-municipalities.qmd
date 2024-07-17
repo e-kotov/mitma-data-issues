@@ -4,14 +4,12 @@ from: markdown+emoji
 code-annotations: hover
 date: "2024-07-16"
 date-modified: "2024-07-16"
-# issue-number: 1
-# repo-url: https://github.com/e-kotov/mitma-data-issues
 categories:
     - spatial data
     - geometry
+    - "importance: medium"
 ---
 
-<!-- **Discuss**: [in GitHub issue #{{< meta issue-number >}}]({{< meta repo-url >}}/issues/#{{< meta issue-number >}}) -->
 
 **Summary**: There are 2 invalid geometries in the municipality boundaries dataset.
 
@@ -77,14 +75,13 @@ DT::datatable(municipality_boundaries[municipality_boundaries_invalid,] |> st_dr
 ```{r}
 source(here("R/901-download-helpers.R"))
 files <- load_latest_v2_xml()
-# DT::datatable(files |> filter(basename(local_path) %in% basename(c(municipal_boundaries_data_file, municipality_names_file))))
 
 # Filter relevant files
-relevant_files <- files %>%
+relevant_files <- files |> 
   filter(basename(local_path) %in% basename(c(municipal_boundaries_data_file, municipality_names_file)) )
 
 # Create HTML links
-relevant_files <- relevant_files %>%
+relevant_files <- relevant_files |> 
   mutate(target_url = paste0("<a href='", target_url, "' target='_blank'>", target_url, "</a>"))
 
 # Render the DT table with links

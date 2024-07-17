@@ -1,0 +1,119 @@
+---
+title: "Municipal population CSV missing population counts"
+from: markdown+emoji
+code-annotations: hover
+date: "2024-07-16"
+date-modified: "2024-07-16"
+categories:
+    - spatial data
+    - geometry
+    - "importance: low"
+---
+
+
+**Summary**: The dataset contains missing population counts for 49 municipalities in the CSV file `poblacion_municipios.csv` in the `zonificacion_municipios` folder. The population data is however available in the `poblacion.csv` file in the `zonificacion` folder, therefore issue importance is relatively low.
+
+**Expected Results**: The population data for all municipalities should be available in the CSV file `poblacion_municipios.csv` in the `zonificacion_municipios` folder.
+
+### Steps to Reproduce
+
+1. **Load Data**
+
+Load libraries and define data files.
+
+```{r}
+#| output: false
+
+library(tidyverse)
+library(sf)
+library(here)
+library(DT)
+
+
+municipal_boundaries_data_file <- here("data/raw_data/v2/zonificacion/zonificacion_municipios/zonificacion_municipios.shp")
+municipality_names_file <- here("data/raw_data/v2/zonificacion/zonificacion_municipios/nombres_municipios.csv")
+municipality_population_file <- here("data/raw_data/v2/zonificacion/zonificacion_municipios/poblacion_municipios.csv")
+all_population_file <- here("data/raw_data/v2/zonificacion/poblacion.csv")
+```
+
+Load the data and join the municipality names to the boundaries.
+
+
+```{r}
+municipality_boundaries <- read_sf(municipal_boundaries_data_file)
+municipality_boundaries_spain_only <- municipality_boundaries |> 
+    filter(! grepl("FR|PT|externo", ID) )
+
+municipality_names <- read_delim(municipality_names_file,
+    delim = "|", show_col_types = FALSE, name_repair = "unique_quiet")
+
+municipality_population <- read_delim(municipality_population_file, col_names = c("ID", "population"),
+    delim = "|", show_col_types = FALSE, name_repair = "unique_quiet")
+
+all_population <- read_delim(all_population_file,
+    delim = "|", show_col_types = FALSE, name_repair = "unique_quiet")
+
+municipality_boundaries_spain_only <- municipality_boundaries_spain_only |>
+    left_join(municipality_names |> select(ID, name), by = c("ID")) |> 
+    left_join(municipality_population, by = c("ID")) |> 
+    left_join(all_population |>
+                  group_by(municipio) |>
+                  summarise(population_all = sum(poblacion, na.rm = TRUE), .groups = "drop") |> 
+                  rename(ID = municipio),
+              by = c("ID"))
+```
+
+### Results
+
+2. **Missing population (loaded from the `poblacion_municipios.csv` in `zonificacion_municipios` folder)**
+
+
+```{r}
+municipality_boundaries_spain_only |>
+    filter(is.na(population)) |>
+    nrow()
+```
+
+
+3. **Population data for municipalities actually available in the `poblacion.csv` in the `zonificacion` **
+
+There are no missing values.
+
+```{r}
+municipality_boundaries_spain_only |>
+    filter(is.na(population_all)) |>
+    nrow()
+```
+
+
+4. **Names of Municipalities with missing population data**
+
+```{r}
+DT::datatable(municipality_boundaries_spain_only |>
+                  st_drop_geometry() |> 
+                  filter(is.na(population))
+                  )
+```
+
+
+
+### Links to the original files
+
+```{r}
+source(here("R/901-download-helpers.R"))
+files <- load_latest_v2_xml()
+
+# Filter relevant files
+relevant_files <- files |> 
+  filter(basename(local_path) %in% basename(c(municipal_boundaries_data_file, municipality_names_file,
+                                              municipality_population_file, all_population_file)) )
+
+# Create HTML links
+relevant_files <- relevant_files |> 
+  mutate(target_url = paste0("<a href='", target_url, "' target='_blank'>", target_url, "</a>"))
+
+# Render the DT table with links
+datatable(relevant_files, escape = FALSE, options = list(pageLength = 5))
+```
+
+
