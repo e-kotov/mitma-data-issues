@@ -3,13 +3,13 @@ title: "Missing column names in Large Urban Areas population CSV"
 from: markdown+emoji
 code-annotations: hover
 date: "2024-07-17"
-date-modified: "2024-07-17"
+date-modified: "2024-08-17"
 categories:
     - tabular data
     - metadata
     - "importance: low"
 issue-importance: "1 - low"
-status: "⚠️ active"
+status: "✅ resolved"
 ---
 
 ---
@@ -20,6 +20,23 @@ status: "⚠️ active"
 **Summary**: CSV file with Large Urban Areas population data is missing column names.
 
 **Expected Results**: The dataset should have `ID` and `population` columns.
+
+---
+
+**Resolution**: resolved with [https://github.com/Robinlovelace/spanishoddata/pull/25](https://github.com/Robinlovelace/spanishoddata/pull/25){target='_blank'} in [`{spanishoddata}`](https://github.com/Robinlovelace/spanishoddata){target='_blank'} R package. 
+
+To get valid spatial data, use `spanishoddata::`[`spod_get_zones()`](https://robinlovelace.github.io/spanishoddata/reference/spod_get_zones.html){target='_blank'}
+
+```{r}
+#| eval: false
+install.packages("spanishoddata",
+  repos = c("https://e-kotov.r-universe.dev", "https://cloud.r-project.org"))
+
+zones <- spanishoddata::spod_get_zones("gau", ver = 2)
+```
+
+
+---
 
 ### Steps to Reproduce
 
