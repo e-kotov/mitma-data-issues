@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2024-07-16">
+<meta name="dcterms.date" content="2024-08-17">
 
-<title>District population CSV missing population counts – Issues in MITMA open mobility data</title>
+<title>Mismatch of zone ids in spatial data and trips per person table for municipal zoning – Issues in MITMA open mobility data</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -204,6 +204,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#steps-to-reproduce" id="toc-steps-to-reproduce" class="nav-link active" data-scroll-target="#steps-to-reproduce">Steps to Reproduce</a></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  <li><a href="#is-there-such-an-issue-with-the-district-level-data" id="toc-is-there-such-an-issue-with-the-district-level-data" class="nav-link" data-scroll-target="#is-there-such-an-issue-with-the-district-level-data">Is there such an issue with the district level data?</a></li>
+  <li><a href="#is-there-such-an-issue-with-the-origin-destination-data" id="toc-is-there-such-an-issue-with-the-origin-destination-data" class="nav-link" data-scroll-target="#is-there-such-an-issue-with-the-origin-destination-data">Is there such an issue with the origin-destination data?</a></li>
+  <li><a href="#conclusion-and-how-the-issue-should-be-fixed" id="toc-conclusion-and-how-the-issue-should-be-fixed" class="nav-link" data-scroll-target="#conclusion-and-how-the-issue-should-be-fixed">Conclusion and how the issue should be fixed</a></li>
   <li><a href="#links-to-the-original-files" id="toc-links-to-the-original-files" class="nav-link" data-scroll-target="#links-to-the-original-files">Links to the original files</a></li>
   </ul>
 </nav>
@@ -213,11 +216,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">District population CSV missing population counts</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source" data-quarto-source-url="https://github.com/e-kotov/mitma-data-issues/blob/main/issues/008-missing-population-counts-for-districts.qmd"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title">Mismatch of zone ids in spatial data and trips per person table for municipal zoning</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source" data-quarto-source-url="https://github.com/e-kotov/mitma-data-issues/blob/main/issues/011-v1-tpp-mismatch-zone-ids-in-table-and-spatial-data.qmd"><i class="bi"></i> Code</button></div></div>
   <div class="quarto-categories">
     <div class="quarto-category">tabular data</div>
-    <div class="quarto-category">missing data</div>
-    <div class="quarto-category">importance: low</div>
+    <div class="quarto-category">incorrect data</div>
+    <div class="quarto-category">zone IDs mismatch</div>
+    <div class="quarto-category">importance: high</div>
   </div>
   </div>
 
@@ -235,14 +239,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">July 16, 2024</p>
+      <p class="date">August 17, 2024</p>
     </div>
   </div>
   
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 17, 2024</p>
+      <p class="date-modified">August 17, 2024</p>
     </div>
   </div>
     
@@ -255,9 +259,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <hr>
 <p><strong>Status</strong>: ⚠️ active</p>
-<p><strong>Importance</strong>: 1 - low</p>
-<p><strong>Summary</strong>: The dataset contains missing population counts for 49 districts in the CSV file <code>poblacion_distritos.csv</code> in the <code>zonificacion_distritos</code> folder, as well as in the <code>poblacion.csv</code> file in the <code>zonificacion</code> folder.</p>
-<p><strong>Expected Results</strong>: The population data for all districts should be available in the CSV file <code>poblacion_distritos.csv</code> in the <code>zonificacion_distritos</code> folder and/or in the <code>poblacion.csv</code> file in the <code>zonificacion</code> folder.</p>
+<p><strong>Importance</strong>: 3 - high</p>
+<p><strong>Summary</strong>: The zone IDs in the municipal trips per person data (<code>maestra2-mitma-municipios</code>) are not consistent with the zone IDs in the municipal boundaries data (<code>zonificacion-municipios/municipios_mitma.shp</code>). TODO: list mismatching ids?</p>
+<p><strong>Expected Results</strong>: The zone IDs in the municipal trips per person data (<code>maestra2-mitma-municipios</code>) should be consistent with the zone IDs in the municipal boundaries data (<code>zonificacion-municipios/municipios_mitma.shp</code>).</p>
+<hr>
+<hr>
 <section id="steps-to-reproduce" class="level3">
 <h3 class="anchored" data-anchor-id="steps-to-reproduce">Steps to Reproduce</h3>
 <ol type="1">
@@ -271,96 +277,256 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DT)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>district_boundaries_data_file <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">"data/raw_data/v2/zonificacion/zonificacion_distritos/zonificacion_distritos.shp"</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>district_names_file <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">"data/raw_data/v2/zonificacion/zonificacion_distritos/nombres_distritos.csv"</span>)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>district_population_file <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">"data/raw_data/v2/zonificacion/zonificacion_distritos/poblacion_distritos.csv"</span>)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>all_population_file <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">"data/raw_data/v2/zonificacion/poblacion.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>trips_per_person_file_2020_03_14 <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">"data/raw_data_cache/v1/maestra2-mitma-municipios/ficheros-diarios/year=2020/month=3/day=14/maestra_2_mitma_municipio.txt.gz"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>trips_per_person_file_2020_10_01 <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">"data/raw_data_cache/v1/maestra2-mitma-municipios/ficheros-diarios/year=2020/month=10/day=1/maestra_2_mitma_municipio.txt.gz"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>municipal_boundaries_data_file <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">"data/raw_data_cache/v1/zonificacion-municipios/municipios_mitma.shp"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>district_boundaries_data_file <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">"data/raw_data_cache/v1/zonificacion-distritos/distritos_mitma.shp"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Load the data and join the district names to the boundaries, as well as population from all population file and districts population file.</p>
+<p>Load the data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>district_boundaries <span class="ot">&lt;-</span> <span class="fu">read_sf</span>(district_boundaries_data_file)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>district_boundaries_spain_only <span class="ot">&lt;-</span> district_boundaries <span class="sc">|&gt;</span> </span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span> <span class="fu">grepl</span>(<span class="st">"FR|PT|externo"</span>, ID) )</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>district_names <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(district_names_file,</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">delim =</span> <span class="st">"|"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>, <span class="at">name_repair =</span> <span class="st">"unique_quiet"</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>district_population <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(district_population_file, <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">"ID"</span>, <span class="st">"population"</span>),</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">delim =</span> <span class="st">"|"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>, <span class="at">name_repair =</span> <span class="st">"unique_quiet"</span>)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>all_population <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(all_population_file,</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">delim =</span> <span class="st">"|"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>, <span class="at">name_repair =</span> <span class="st">"unique_quiet"</span>)</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>district_boundaries_spain_only <span class="ot">&lt;-</span> district_boundaries_spain_only <span class="sc">|&gt;</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(district_names <span class="sc">|&gt;</span> <span class="fu">select</span>(ID, name), <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"ID"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(district_population, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"ID"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(all_population <span class="sc">|&gt;</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">group_by</span>(distrito) <span class="sc">|&gt;</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">summarise</span>(<span class="at">population_all =</span> <span class="fu">sum</span>(poblacion, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">rename</span>(<span class="at">ID =</span> distrito),</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>              <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"ID"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>trips_per_person_2020_03_14 <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_delim</span>(trips_per_person_file_2020_03_14, <span class="at">delim =</span> <span class="st">"|"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>, <span class="at">name_repair =</span> <span class="st">"unique_quiet"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>trips_per_person_2020_10_01 <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_delim</span>(trips_per_person_file_2020_10_01, <span class="at">delim =</span> <span class="st">"|"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>, <span class="at">name_repair =</span> <span class="st">"unique_quiet"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>municipal_boundaries <span class="ot">&lt;-</span> <span class="fu">read_sf</span>(municipal_boundaries_data_file)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>district_boundaries <span class="ot">&lt;-</span> <span class="fu">read_sf</span>(district_boundaries_data_file)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(trips_per_person_2020_03_14)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 8,744
+Columns: 4
+$ fecha         &lt;dbl&gt; 20200314, 20200314, 20200314, 20200314, 20200314, 202003…
+$ distrito      &lt;chr&gt; "01001_AM", "01001_AM", "01001_AM", "01001_AM", "01002",…
+$ numero_viajes &lt;chr&gt; "0", "1", "2", "2+", "0", "1", "2", "2+", "0", "1", "2",…
+$ personas      &lt;dbl&gt; 5498.025, 320.152, 1472.050, 1796.115, 5392.325, 728.374…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(trips_per_person_2020_10_01)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 8,764
+Columns: 4
+$ fecha         &lt;dbl&gt; 20201001, 20201001, 20201001, 20201001, 20201001, 202010…
+$ distrito      &lt;chr&gt; "01001_AM", "01001_AM", "01001_AM", "01001_AM", "01002",…
+$ numero_viajes &lt;chr&gt; "0", "1", "2", "2+", "0", "1", "2", "2+", "0", "1", "2",…
+$ personas      &lt;dbl&gt; 2614.317, 245.434, 2280.543, 3836.331, 3956.197, 497.415…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(municipal_boundaries)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 2,205
+Columns: 2
+$ ID       &lt;chr&gt; "16078", "07058_AM", "36057", "38033_AM", "06109_AM", "32007_…
+$ geometry &lt;MULTIPOLYGON [m]&gt; MULTIPOLYGON (((583277.4 44..., MULTIPOLYGON (((…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(district_boundaries)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 2,850
+Columns: 2
+$ ID       &lt;chr&gt; "2408910", "22117_AM", "2305009", "07058_AM", "2305006", "230…
+$ geometry &lt;MULTIPOLYGON [m]&gt; MULTIPOLYGON (((290940.1 47..., MULTIPOLYGON (((…</code></pre>
+</div>
 </div>
 </section>
 <section id="results" class="level3">
 <h3 class="anchored" data-anchor-id="results">Results</h3>
 <ol start="2" type="1">
-<li><strong>Missing population (loaded from the <code>poblacion_distritos.csv</code> in <code>zonificacion_distritos</code> folder)</strong></li>
+<li><strong>Not all zone IDs in the municipal level trips per person dataset can be found in the municipal boundaries dataset.</strong></li>
 </ol>
+<p>Not all zone (<code>distrito</code>) IDs in the municipal level trips per person dataset can be found in the municipal boundaries dataset. For example, on <code>2020-03-14</code>, all IDs do mathc, but on <code>2020-10-01</code>, 5 IDs mismatch.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>district_boundaries_spain_only <span class="sc">|&gt;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="fu">is.na</span>(population)) <span class="sc">|&gt;</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="sc">!</span><span class="fu">unique</span>(trips_per_person_2020_03_14<span class="sc">$</span>distrito) <span class="sc">%in%</span> <span class="fu">unique</span>(municipal_boundaries<span class="sc">$</span>ID))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 49</code></pre>
+<pre><code>[1] 0</code></pre>
 </div>
-</div>
-<ol start="3" type="1">
-<li><strong>Population data for districts also unavailable in the <code>poblacion.csv</code> in the <code>zonificacion</code> </strong></li>
-</ol>
-<p>There are no population counts for these districts in the <code>poblacion.csv</code> file either.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>district_boundaries_spain_only <span class="sc">|&gt;</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(population_all)) <span class="sc">|&gt;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(population_all <span class="sc">==</span> <span class="dv">0</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="sc">!</span><span class="fu">unique</span>(trips_per_person_2020_10_01<span class="sc">$</span>distrito) <span class="sc">%in%</span> <span class="fu">unique</span>(municipal_boundaries<span class="sc">$</span>ID))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 49</code></pre>
+<pre><code>[1] 5</code></pre>
 </div>
 </div>
-<ol start="4" type="1">
-<li><strong>Names of districts with missing population data</strong></li>
-</ol>
+<p>Here are the mismatching IDs:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">datatable</span>(district_boundaries_spain_only <span class="sc">|&gt;</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">st_drop_geometry</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">filter</span>(<span class="fu">is.na</span>(population))</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(trips_per_person_2020_10_01<span class="sc">$</span>distrito)[</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">!</span><span class="fu">unique</span>(trips_per_person_2020_10_01<span class="sc">$</span>distrito) <span class="sc">%in%</span> <span class="fu">unique</span>(municipal_boundaries<span class="sc">$</span>ID)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "04902" "28006" "28106" "28123" "28127"</code></pre>
+</div>
+</div>
+<p>In the spatial dataset we do not have the IDs above, however we do have similar IDs with extra digits:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>municipal_boundaries <span class="sc">|&gt;</span> <span class="fu">filter</span>(ID <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"0490201"</span>, <span class="st">"2800601"</span>, <span class="st">"2810601"</span>, <span class="st">"2812301"</span>, <span class="st">"2812701"</span>)) <span class="co"># these IDs exist</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Simple feature collection with 5 features and 1 field
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: 419573.3 ymin: 4059438 xmax: 530623 ymax: 4493337
+Projected CRS: ETRS89 / UTM zone 30N (N-E)
+# A tibble: 5 × 2
+  ID                                                                    geometry
+* &lt;chr&gt;                                                       &lt;MULTIPOLYGON [m]&gt;
+1 2812301 (((455833.8 4471420, 455908.9 4472066, 456023.8 4472526, 455932.7 447…
+2 0490201 (((510312.5 4064495, 509896.8 4064947, 509553.9 4065352, 509030.9 406…
+3 2810601 (((437139.6 4452138, 437133.4 4451989, 437585.1 4451440, 437385.4 445…
+4 2812701 (((428935.1 4480873, 428572.2 4481050, 428255.8 4481124, 427733.7 448…
+5 2800601 (((446243 4484315, 445604.6 4484363, 445359.4 4484328, 445102.9 44846…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>municipal_boundaries <span class="sc">|&gt;</span> <span class="fu">filter</span>(ID <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"04902"</span>, <span class="st">"28006"</span>, <span class="st">"28106"</span>, <span class="st">"28123"</span>, <span class="st">"28127"</span>)) <span class="co"># these do not</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Simple feature collection with 0 features and 1 field
+Bounding box:  xmin: NA ymin: NA xmax: NA ymax: NA
+Projected CRS: ETRS89 / UTM zone 30N (N-E)
+# A tibble: 0 × 2
+# ℹ 2 variables: ID &lt;chr&gt;, geometry &lt;GEOMETRY [m]&gt;</code></pre>
+</div>
+</div>
+<p>It seems like at some point in time in this dataset, the IDs have changed, as we cannot find the same IDs in the data for different dates, as seen below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>trips_per_person_2020_03_14 <span class="sc">|&gt;</span> <span class="fu">filter</span>(distrito <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"0490201"</span>, <span class="st">"2800601"</span>, <span class="st">"2810601"</span>, <span class="st">"2812301"</span>, <span class="st">"2812701"</span>)) <span class="sc">|&gt;</span> <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 20</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>trips_per_person_2020_03_14 <span class="sc">|&gt;</span> <span class="fu">filter</span>(distrito <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"04902"</span>, <span class="st">"28006"</span>, <span class="st">"28106"</span>, <span class="st">"28123"</span>, <span class="st">"28127"</span>)) <span class="sc">|&gt;</span> <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>trips_per_person_2020_10_01 <span class="sc">|&gt;</span> <span class="fu">filter</span>(distrito <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"0490201"</span>, <span class="st">"2800601"</span>, <span class="st">"2810601"</span>, <span class="st">"2812301"</span>, <span class="st">"2812701"</span>)) <span class="sc">|&gt;</span> <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>trips_per_person_2020_10_01 <span class="sc">|&gt;</span> <span class="fu">filter</span>(distrito <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"04902"</span>, <span class="st">"28006"</span>, <span class="st">"28106"</span>, <span class="st">"28123"</span>, <span class="st">"28127"</span>)) <span class="sc">|&gt;</span> <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 20</code></pre>
+</div>
+</div>
+<p>The longer IDs are not expected to be in the spatial data for municipalities, but they are there, as seen below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>municipal_boundaries <span class="sc">|&gt;</span> <span class="fu">filter</span>(ID <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"0490201"</span>, <span class="st">"2800601"</span>, <span class="st">"2810601"</span>, <span class="st">"2812301"</span>, <span class="st">"2812701"</span>)) <span class="sc">|&gt;</span> <span class="fu">nrow</span>() <span class="co"># these IDs exist</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>municipal_boundaries <span class="sc">|&gt;</span> <span class="fu">filter</span>(ID <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"04902"</span>, <span class="st">"28006"</span>, <span class="st">"28106"</span>, <span class="st">"28123"</span>, <span class="st">"28127"</span>)) <span class="sc">|&gt;</span> <span class="fu">nrow</span>() <span class="co"># these do not</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+<p>What makes the matters more complicated, is that these longer IDs also can be found in the district boundaries, as seen below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>district_boundaries <span class="sc">|&gt;</span> <span class="fu">filter</span>(ID <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"0490201"</span>, <span class="st">"2800601"</span>, <span class="st">"2810601"</span>, <span class="st">"2812301"</span>, <span class="st">"2812701"</span>)) <span class="sc">|&gt;</span> <span class="fu">nrow</span>() <span class="co"># these IDs exist</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>district_boundaries <span class="sc">|&gt;</span> <span class="fu">filter</span>(ID <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"04902"</span>, <span class="st">"28006"</span>, <span class="st">"28106"</span>, <span class="st">"28123"</span>, <span class="st">"28127"</span>)) <span class="sc">|&gt;</span> <span class="fu">nrow</span>() <span class="co"># these do not</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+<p>Threfore it is unclear with which spatial data the trip counts in the trips per person data for municipalities is actually associated.</p>
+<p>Let’s filter the spatial data for both districts and municipalities to only include these IDs and compare them visually.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>municipal_boundaries_subset <span class="ot">&lt;-</span> municipal_boundaries <span class="sc">|&gt;</span> <span class="fu">filter</span>(ID <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"0490201"</span>, <span class="st">"2800601"</span>, <span class="st">"2810601"</span>, <span class="st">"2812301"</span>, <span class="st">"2812701"</span>))</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>district_boundaries_subset <span class="ot">&lt;-</span> district_boundaries <span class="sc">|&gt;</span> <span class="fu">filter</span>(ID <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"0490201"</span>, <span class="st">"2800601"</span>, <span class="st">"2810601"</span>, <span class="st">"2812301"</span>, <span class="st">"2812701"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> municipal_boundaries_subset, <span class="at">fill =</span> <span class="st">"grey50"</span>, <span class="at">col =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> district_boundaries_subset, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">col =</span> <span class="st">"blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-24c8263f51af9015d440" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-24c8263f51af9015d440">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49"],["34022253049","34024453076","34024453077","34063953072","34070953004","34070953005","34070953006","34070953007","34070953008","34070953009","34070953010","34070953011","34070953012","34070953013","34070953014","34070953015","34070953016","34070953018","34070953020","34070953021","34070953022","34070953023","34070953024","34070953026","34070953027","34070953028","34070953029","34070953031","34070953032","34070953033","34070953034","34070953035","34070953036","34070953039","34070953040","34070953041","34070953042","34070953043","34070953044","34070953045","34070953046","34070953073","34072453051","34072453052","34074053074","34074253075","34081953047","34153153078","34172653056"],["Comunero de Ansó y Hecho","Comunidad de la Pardina del Mercadal","El Franco","Comunidad de Campoo y Cabuérniga","Comunidad de Arauzo de Miel y Huerta del Rey","Comunidad de Los Ausines y Revilla del Campo","Comunidad de Barbadillo de Herreros y Vallejimeno (E.L.M.)","Comunidad de 09076, 09290, 09578, 09606 y 09822","Comunidad de 09076, 09290, 09578 y 09822","Cabeza Alta","Comunidad de 09076, 09150 y 09578","Comunidad de 09076, 09498 y 09578","Comunidad de 09076, 09578, 09606 y 09822","Comunidad de Barbadillo del Pez y Jaramillo de la Fuente","Comunidad de Barbadillo del Pez y Riocavado de la Sierra","Comunidad de Bascuñana y Viloria de Rioja","Monte Revenga","Comunidad de Canicosa de la Sierra y Casarejos","Comunidad de Fuente Carazo","Ledanía de 09162, 09290, 09412 y 09606","Dehesa de San Felices","Comunidad de Cilleruelo de Arriba y Pineda Trasmonte","Comunidad de Covarrubias, Quintanilla del Coco y Retuerta","Comunidad de Gete y Hacinas","Ledanía de Hacinas y Salas de los Infantes","Ledanía de Hacinas, Salas de los Infantes y Villanueva de Carazo","Comunidad de 09314, 09374, 09356 y 09126","Valle de las Venadas","Comunidad de Palacios de la Sierra, Vilviestre del Pinar y San Leonardo de Yagüe","Comunidad de Quintanaortuño y Merindad de Río Ubierna","Comunidad de Quintanar de la Sierra y Vilviestre del Pinar","Comunidad de Revilla del Campo y Torrelara","Ledanía de Castrillo de la Reina, Hacinas y Salas de los Infantes","Comunidad de Tardajos y Las Quintanillas","Comunidad de Tardajos y Rabé de las Calzadas","Comunidad de Tinieblas de la Sierra y San Millán de Lara","Comunidad de Vilviestre del Pinar y Palacios de la Sierra","Comunidad de Villoruebo y Torrelara","Comunidad de Vizcaínos y Jaramillo de la Fuente","Comunidad de Quintanilla del Agua y Tordueles y Puentedura","Comunidad de Merindad de Río Ubierna, Quintanilla Vivar y Sotragero","Monte de la Mata","Comunidad de Castrotierra de la Valduerna","Foncabada","Comunidad de Sepúlveda y Riaza","San Bartolomé","Aldovera","Bardenas Reales","Mancomunidad de Nalda, Sorzano y Viguera"],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>ID<\/th>\n      <th>name<\/th>\n      <th>population<\/th>\n      <th>population_all<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[3,4]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"ID","targets":1},{"name":"name","targets":2},{"name":"population","targets":3},{"name":"population_all","targets":4}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div>
+<figure class="figure">
+<p><img src="011-v1-tpp-mismatch-zone-ids-in-table-and-spatial-data_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
+</div>
+<p>These seem to match perfectly, therefore they can probably be assumed to be the same.</p>
+</section>
+<section id="is-there-such-an-issue-with-the-district-level-data" class="level3">
+<h3 class="anchored" data-anchor-id="is-there-such-an-issue-with-the-district-level-data">Is there such an issue with the district level data?</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>trips_per_person_2020_03_14_distr <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_delim</span>(</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">here</span>(<span class="st">"data/raw_data_cache/v1/maestra2-mitma-distritos/ficheros-diarios/year=2020/month=3/day=14/maestra_2_mitma_distrito.txt.gz"</span>),</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">delim =</span> <span class="st">"|"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>, <span class="at">name_repair =</span> <span class="st">"unique_quiet"</span>)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>trips_per_person_2020_10_01_distr <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_delim</span>(</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">here</span>(<span class="st">"data/raw_data_cache/v1/maestra2-mitma-distritos/ficheros-diarios/year=2020/month=10/day=1/maestra_2_mitma_distrito.txt.gz"</span>),</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">delim =</span> <span class="st">"|"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>, <span class="at">name_repair =</span> <span class="st">"unique_quiet"</span>)</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>trips_per_person_2020_03_14_distr <span class="sc">|&gt;</span> <span class="fu">filter</span>(distrito <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"0490201"</span>, <span class="st">"2800601"</span>, <span class="st">"2810601"</span>, <span class="st">"2812301"</span>, <span class="st">"2812701"</span>)) <span class="sc">|&gt;</span> <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 20</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>trips_per_person_2020_03_14_distr <span class="sc">|&gt;</span> <span class="fu">filter</span>(distrito <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"04902"</span>, <span class="st">"28006"</span>, <span class="st">"28106"</span>, <span class="st">"28123"</span>, <span class="st">"28127"</span>)) <span class="sc">|&gt;</span> <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>trips_per_person_2020_10_01_distr <span class="sc">|&gt;</span> <span class="fu">filter</span>(distrito <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"0490201"</span>, <span class="st">"2800601"</span>, <span class="st">"2810601"</span>, <span class="st">"2812301"</span>, <span class="st">"2812701"</span>)) <span class="sc">|&gt;</span> <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 20</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>trips_per_person_2020_10_01_distr <span class="sc">|&gt;</span> <span class="fu">filter</span>(distrito <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"04902"</span>, <span class="st">"28006"</span>, <span class="st">"28106"</span>, <span class="st">"28123"</span>, <span class="st">"28127"</span>)) <span class="sc">|&gt;</span> <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+<p>No such issue, the data for districts seem to be consistent.</p>
+</section>
+<section id="is-there-such-an-issue-with-the-origin-destination-data" class="level3">
+<h3 class="anchored" data-anchor-id="is-there-such-an-issue-with-the-origin-destination-data">Is there such an issue with the origin-destination data?</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>od_municip_2020_03_14 <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_delim</span>(</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">here</span>(<span class="st">"data/raw_data_cache/v1/maestra1-mitma-municipios/ficheros-diarios/year=2020/month=3/day=14/maestra_1_mitma_municipio.txt.gz"</span>),</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">delim =</span> <span class="st">"|"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>, <span class="at">name_repair =</span> <span class="st">"unique_quiet"</span>)</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>od_municip_2020_10_01 <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_delim</span>(</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">here</span>(<span class="st">"data/raw_data_cache/v1/maestra1-mitma-municipios/ficheros-diarios/year=2020/month=10/day=1/maestra_1_mitma_municipio.txt.gz"</span>),</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">delim =</span> <span class="st">"|"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>, <span class="at">name_repair =</span> <span class="st">"unique_quiet"</span>)</span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>od_municip_2020_03_14 <span class="sc">|&gt;</span> <span class="fu">filter</span>(origen <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"0490201"</span>, <span class="st">"2800601"</span>, <span class="st">"2810601"</span>, <span class="st">"2812301"</span>, <span class="st">"2812701"</span>)) <span class="sc">|&gt;</span> <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5900</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>od_municip_2020_03_14 <span class="sc">|&gt;</span> <span class="fu">filter</span>(origen <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"04902"</span>, <span class="st">"28006"</span>, <span class="st">"28106"</span>, <span class="st">"28123"</span>, <span class="st">"28127"</span>)) <span class="sc">|&gt;</span> <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>od_municip_2020_03_14 <span class="sc">|&gt;</span> <span class="fu">filter</span>(destino <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"0490201"</span>, <span class="st">"2800601"</span>, <span class="st">"2810601"</span>, <span class="st">"2812301"</span>, <span class="st">"2812701"</span>)) <span class="sc">|&gt;</span> <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5874</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>od_municip_2020_03_14 <span class="sc">|&gt;</span> <span class="fu">filter</span>(destino <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"04902"</span>, <span class="st">"28006"</span>, <span class="st">"28106"</span>, <span class="st">"28123"</span>, <span class="st">"28127"</span>)) <span class="sc">|&gt;</span> <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+<p>The data for origin-destination seem to be consistent.</p>
+</section>
+<section id="conclusion-and-how-the-issue-should-be-fixed" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion-and-how-the-issue-should-be-fixed">Conclusion and how the issue should be fixed</h3>
+<p>The zone IDs in the tables for municipal level trips per person data and spatial data do not match starting with a certain date. The zones with IDs “0490201”, “2800601”, “2810601”, “2812301”, “2812701” should be recoded to “04902”, “28006”, “28106”, “28123”, “28127” during the import process of the trips per person tables. This can be easily done using the existing approach of SQL-based view creation in the <a href="https://github.com/Robinlovelace/spanishoddata" target="_blank"><code>{spanishoddata}</code></a> R package.</p>
 </section>
 <section id="links-to-the-original-files" class="level3">
 <h3 class="anchored" data-anchor-id="links-to-the-original-files">Links to the original files</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="fu">here</span>(<span class="st">"R/901-download-helpers.R"</span>))</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">load_latest_v2_xml</span>()</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter relevant files</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>relevant_files <span class="ot">&lt;-</span> files <span class="sc">|&gt;</span> </span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">basename</span>(local_path) <span class="sc">%in%</span> <span class="fu">basename</span>(<span class="fu">c</span>(district_boundaries_data_file, district_names_file,</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                                              district_population_file, all_population_file)) )</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Create HTML links</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>relevant_files <span class="ot">&lt;-</span> relevant_files <span class="sc">|&gt;</span> </span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">target_url =</span> <span class="fu">paste0</span>(<span class="st">"&lt;a href='"</span>, target_url, <span class="st">"' target='_blank'&gt;"</span>, target_url, <span class="st">"&lt;/a&gt;"</span>))</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Render the DT table with links</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(relevant_files, <span class="at">escape =</span> <span class="cn">FALSE</span>, <span class="at">options =</span> <span class="fu">list</span>(<span class="at">pageLength =</span> <span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> spanishoddata<span class="sc">:::</span><span class="fu">spod_available_data</span>(<span class="dv">1</span>, <span class="at">data_dir =</span> <span class="fu">here</span>(<span class="st">"data"</span>))</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter relevant files</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>relevant_files <span class="ot">&lt;-</span> files <span class="sc">|&gt;</span> </span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>((local_path <span class="sc">%in%</span> <span class="fu">c</span>(</span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>    trips_per_person_file_2020_03_14,</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>    trips_per_person_file_2020_10_01)) <span class="sc">|</span></span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grepl</span>(<span class="st">"zonificacion"</span>, local_path)</span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Create HTML links</span></span>
+<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a>relevant_files <span class="ot">&lt;-</span> relevant_files <span class="sc">|&gt;</span> </span>
+<span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">target_url =</span> <span class="fu">paste0</span>(<span class="st">"&lt;a href='"</span>, target_url, <span class="st">"' target='_blank'&gt;"</span>, target_url, <span class="st">"&lt;/a&gt;"</span>))</span>
+<span id="cb55-14"><a href="#cb55-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-15"><a href="#cb55-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Render the DT table with links</span></span>
+<span id="cb55-16"><a href="#cb55-16" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(relevant_files, <span class="at">escape =</span> <span class="cn">FALSE</span>, <span class="at">options =</span> <span class="fu">list</span>(<span class="at">pageLength =</span> <span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-49d5de559c195db5c7f2" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-49d5de559c195db5c7f2">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4"],["<a href='https://movilidad-opendata.mitma.es/zonificacion/zonificacion_distritos/nombres_distritos.csv' target='_blank'>https://movilidad-opendata.mitma.es/zonificacion/zonificacion_distritos/nombres_distritos.csv<\/a>","<a href='https://movilidad-opendata.mitma.es/zonificacion/zonificacion_distritos/poblacion_distritos.csv' target='_blank'>https://movilidad-opendata.mitma.es/zonificacion/zonificacion_distritos/poblacion_distritos.csv<\/a>","<a href='https://movilidad-opendata.mitma.es/zonificacion/zonificacion_distritos/zonificacion_distritos.shp' target='_blank'>https://movilidad-opendata.mitma.es/zonificacion/zonificacion_distritos/zonificacion_distritos.shp<\/a>","<a href='https://movilidad-opendata.mitma.es/zonificacion/poblacion.csv' target='_blank'>https://movilidad-opendata.mitma.es/zonificacion/poblacion.csv<\/a>"],["2023-04-19T09:57:02Z","2023-04-19T09:57:02Z","2023-04-19T09:57:02Z","2023-04-19T09:57:13Z"],["csv","csv","shp","csv"],[null,null,null,null],[null,null,null,null],["data/raw_data/v2/zonificacion/zonificacion_distritos/nombres_distritos.csv","data/raw_data/v2/zonificacion/zonificacion_distritos/poblacion_distritos.csv","data/raw_data/v2/zonificacion/zonificacion_distritos/zonificacion_distritos.shp","data/raw_data/v2/zonificacion/poblacion.csv"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>target_url<\/th>\n      <th>pub_ts<\/th>\n      <th>file_extension<\/th>\n      <th>data_ym<\/th>\n      <th>data_ymd<\/th>\n      <th>local_path<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"columnDefs":[{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"target_url","targets":1},{"name":"pub_ts","targets":2},{"name":"file_extension","targets":3},{"name":"data_ym","targets":4},{"name":"data_ymd","targets":5},{"name":"local_path","targets":6}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-7b1b5da5860b15c77ffd" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-7b1b5da5860b15c77ffd">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4"],["<a href='https://opendata-movilidad.mitma.es/zonificacion_municipios.zip' target='_blank'>https://opendata-movilidad.mitma.es/zonificacion_municipios.zip<\/a>","<a href='https://opendata-movilidad.mitma.es/zonificacion_distritos.zip' target='_blank'>https://opendata-movilidad.mitma.es/zonificacion_distritos.zip<\/a>","<a href='https://opendata-movilidad.mitma.es/maestra2-mitma-municipios/ficheros-diarios/2020-03/20200314_maestra_2_mitma_municipio.txt.gz' target='_blank'>https://opendata-movilidad.mitma.es/maestra2-mitma-municipios/ficheros-diarios/2020-03/20200314_maestra_2_mitma_municipio.txt.gz<\/a>","<a href='https://opendata-movilidad.mitma.es/maestra2-mitma-municipios/ficheros-diarios/2020-10/20201001_maestra_2_mitma_municipio.txt.gz' target='_blank'>https://opendata-movilidad.mitma.es/maestra2-mitma-municipios/ficheros-diarios/2020-10/20201001_maestra_2_mitma_municipio.txt.gz<\/a>"],["2020-12-29T00:14:07Z","2020-12-29T00:13:44Z","2020-12-28T22:50:10Z","2020-12-28T22:50:09Z"],["zip","zip","gz","gz"],[null,null,"2020-03-01","2020-10-01"],[null,null,"2020-03-14","2020-10-01"],["/Users/ek/home/online_sync/nextcloud/_github/mitma-data-issues/data/raw_data_cache/v1/zonificacion_municipios.zip","/Users/ek/home/online_sync/nextcloud/_github/mitma-data-issues/data/raw_data_cache/v1/zonificacion_distritos.zip","/Users/ek/home/online_sync/nextcloud/_github/mitma-data-issues/data/raw_data_cache/v1/maestra2-mitma-municipios/ficheros-diarios/year=2020/month=3/day=14/maestra_2_mitma_municipio.txt.gz","/Users/ek/home/online_sync/nextcloud/_github/mitma-data-issues/data/raw_data_cache/v1/maestra2-mitma-municipios/ficheros-diarios/year=2020/month=10/day=1/maestra_2_mitma_municipio.txt.gz"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>target_url<\/th>\n      <th>pub_ts<\/th>\n      <th>file_extension<\/th>\n      <th>data_ym<\/th>\n      <th>data_ymd<\/th>\n      <th>local_path<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"columnDefs":[{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"target_url","targets":1},{"name":"pub_ts","targets":2},{"name":"file_extension","targets":3},{"name":"data_ym","targets":4},{"name":"data_ymd","targets":5},{"name":"local_path","targets":6}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 
