@@ -16,6 +16,8 @@ status: "⚠️ active"
 
 **Status**: {{< meta status >}}
 
+**Importance**: {{< meta issue-importance >}}
+
 **Summary**: The dataset contains missing population counts for 49 districts in the CSV file `poblacion_distritos.csv` in the `zonificacion_distritos` folder, as well as in the `poblacion.csv` file in the `zonificacion` folder.
 
 **Expected Results**: The population data for all districts should be available in the CSV file `poblacion_distritos.csv` in the `zonificacion_distritos` folder and/or in the `poblacion.csv` file in the `zonificacion` folder.

@@ -17,6 +17,8 @@ status: "⚠️ active"
 
 **Status**: {{< meta status >}}
 
+**Importance**: {{< meta issue-importance >}}
+
 **Note**: According to the [official methodology](https://www.transportes.gob.es/recursos_mfom/paginabasica/recursos/a3_informe_metodologico_resumen_v6.pdf) this is by design. However, still needs to be addressed in workflows within the [`{spanishoddata}`](https://github.com/Robinlovelace/spanishoddata){target='_blank'} R package.
 
 **Summary**: The zone IDs in the municipal overnight stays data are not consistent with the zone IDs in the municipal boundaries data. The zone IDs in the municipal overnight stays data for the residential location column `zona_residencia` are a combination of district and municipal IDs.

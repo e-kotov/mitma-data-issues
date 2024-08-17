@@ -16,6 +16,8 @@ status: "✅ resolved"
 
 **Status**: {{< meta status >}}
 
+**Importance**: {{< meta issue-importance >}}
+
 **Summary**: CSV file with district population data is missing column names.
 
 **Expected Results**: The dataset should have `ID` and `population` columns.

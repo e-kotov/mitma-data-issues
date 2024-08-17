@@ -4,8 +4,12 @@ library(curl)
 library(data.table)
 library(xml2)
 library(fs)
+# renv::install("spanishoddata=Robinlovelace/spanishoddata")
+library(spanishoddata)
 
 fs::dir_create("data", recurse = TRUE)
+
+# v2 data
 
 source("R/901-download-helpers.R")
 
@@ -33,3 +37,40 @@ download_selected_data <- function(){
     
 }
 
+# v1 data
+
+download_v1_data <- function(){
+
+  Sys.setenv("SPANISH_OD_DATA_DIR" = here::here("data"))
+  # Sys.getenv("SPANISH_OD_DATA_DIR")
+
+  v1 <- spanishoddata:::spod_available_data(1, check_local_files = FALSE)
+
+  spanishoddata::spod_download_data(
+    "tpp",
+    zones = "municip",
+    dates = c("2020-03-14", "2020-10-01")
+  )
+
+  spanishoddata::spod_download_data(
+    "tpp",
+    zones = "distr",
+    dates = c("2020-03-14", "2020-10-01")
+  )
+  
+  spanishoddata::spod_download_data(
+    "od",
+    zones = "municip",
+    dates = c("2020-03-14", "2020-10-01")
+  )
+
+  spanishoddata::spod_download_data(
+    "od",
+    zones = "distr",
+    dates = c("2020-03-14", "2020-10-01")
+  )
+  
+  zones_municip <- spanishoddata::spod_get_zones("municip", ver = 1)
+  zones_distr <- spanishoddata::spod_get_zones("distr", ver = 1)
+
+}

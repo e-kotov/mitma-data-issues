@@ -16,6 +16,8 @@ status: "✅ resolved"
 
 **Status**: {{< meta status >}}
 
+**Importance**: {{< meta issue-importance >}}
+
 **Summary**: There are 3 invalid geometries in the Large Urban Areas boundaries dataset.
 
 **Expected Results**: The dataset should not contain any invalid geometries.

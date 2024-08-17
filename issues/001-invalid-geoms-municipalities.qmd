@@ -16,6 +16,8 @@ status: "✅ resolved"
 
 **Status**: {{< meta status >}}
 
+**Importance**: {{< meta issue-importance >}}
+
 **Summary**: There are 2 invalid geometries in the municipality boundaries dataset.
 
 **Expected Results**: The dataset should not contain any invalid geometries.

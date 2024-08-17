@@ -1,0 +1,206 @@
+---
+title: "Mismatch of zone ids in spatial data and trips per person table for municipal zoning"
+from: markdown+emoji
+code-annotations: hover
+date: "2024-08-17"
+date-modified: "2024-08-17"
+categories:
+    - tabular data
+    - incorrect data
+    - zone IDs mismatch
+    - "importance: high"
+issue-importance: "3 - high"
+status: "⚠️ active"
+---
+
+---
+
+**Status**: {{< meta status >}}
+
+**Importance**: {{< meta issue-importance >}}
+
+**Summary**: The zone IDs in the municipal trips per person data (`maestra2-mitma-municipios`) are not consistent with the zone IDs in the municipal boundaries data (`zonificacion-municipios/municipios_mitma.shp`). TODO: list mismatching ids?
+
+**Expected Results**: The zone IDs in the municipal trips per person data (`maestra2-mitma-municipios`) should be consistent with the zone IDs in the municipal boundaries data (`zonificacion-municipios/municipios_mitma.shp`).
+
+---
+
+
+---
+
+
+### Steps to Reproduce
+
+1. **Load Data**
+
+Load libraries and define data files.
+
+```{r}
+#| output: false
+
+library(tidyverse)
+library(sf)
+library(here)
+library(DT)
+
+
+trips_per_person_file_2020_03_14 <- here("data/raw_data_cache/v1/maestra2-mitma-municipios/ficheros-diarios/year=2020/month=3/day=14/maestra_2_mitma_municipio.txt.gz")
+trips_per_person_file_2020_10_01 <- here("data/raw_data_cache/v1/maestra2-mitma-municipios/ficheros-diarios/year=2020/month=10/day=1/maestra_2_mitma_municipio.txt.gz")
+municipal_boundaries_data_file <- here("data/raw_data_cache/v1/zonificacion-municipios/municipios_mitma.shp")
+district_boundaries_data_file <- here("data/raw_data_cache/v1/zonificacion-distritos/distritos_mitma.shp")
+```
+
+Load the data.
+
+
+```{r}
+trips_per_person_2020_03_14 <- readr::read_delim(trips_per_person_file_2020_03_14, delim = "|", show_col_types = FALSE, name_repair = "unique_quiet")
+trips_per_person_2020_10_01 <- readr::read_delim(trips_per_person_file_2020_10_01, delim = "|", show_col_types = FALSE, name_repair = "unique_quiet")
+municipal_boundaries <- read_sf(municipal_boundaries_data_file)
+district_boundaries <- read_sf(district_boundaries_data_file)
+```
+
+```{r}
+glimpse(trips_per_person_2020_03_14)
+glimpse(trips_per_person_2020_10_01)
+glimpse(municipal_boundaries)
+glimpse(district_boundaries)
+```
+
+
+### Results
+
+2. **Not all zone IDs in the municipal level trips per person dataset can be found in the municipal boundaries dataset.**
+
+Not all zone (`distrito`) IDs in the municipal level trips per person dataset can be found in the municipal boundaries dataset. For example, on `2020-03-14`, all IDs do mathc, but on `2020-10-01`, 5 IDs mismatch.
+
+```{r}
+sum(!unique(trips_per_person_2020_03_14$distrito) %in% unique(municipal_boundaries$ID))
+sum(!unique(trips_per_person_2020_10_01$distrito) %in% unique(municipal_boundaries$ID))
+```
+
+Here are the mismatching IDs:
+
+```{r}
+unique(trips_per_person_2020_10_01$distrito)[
+  !unique(trips_per_person_2020_10_01$distrito) %in% unique(municipal_boundaries$ID)
+]
+```
+
+In the spatial dataset we do not have the IDs above, however we do have similar IDs with extra digits:
+
+```{r}
+municipal_boundaries |> filter(ID %in% c("0490201", "2800601", "2810601", "2812301", "2812701")) # these IDs exist
+municipal_boundaries |> filter(ID %in% c("04902", "28006", "28106", "28123", "28127")) # these do not
+```
+
+
+It seems like at some point in time in this dataset, the IDs have changed, as we cannot find the same IDs in the data for different dates, as seen below:
+
+```{r}
+trips_per_person_2020_03_14 |> filter(distrito %in% c("0490201", "2800601", "2810601", "2812301", "2812701")) |> nrow()
+trips_per_person_2020_03_14 |> filter(distrito %in% c("04902", "28006", "28106", "28123", "28127")) |> nrow()
+```
+
+```{r}
+trips_per_person_2020_10_01 |> filter(distrito %in% c("0490201", "2800601", "2810601", "2812301", "2812701")) |> nrow()
+trips_per_person_2020_10_01 |> filter(distrito %in% c("04902", "28006", "28106", "28123", "28127")) |> nrow()
+```
+
+
+The longer IDs are not expected to be in the spatial data for municipalities, but they are there, as seen below:
+
+```{r}
+municipal_boundaries |> filter(ID %in% c("0490201", "2800601", "2810601", "2812301", "2812701")) |> nrow() # these IDs exist
+municipal_boundaries |> filter(ID %in% c("04902", "28006", "28106", "28123", "28127")) |> nrow() # these do not
+```
+
+What makes the matters more complicated, is that these longer IDs also can be found in the district boundaries, as seen below:
+
+```{r}
+district_boundaries |> filter(ID %in% c("0490201", "2800601", "2810601", "2812301", "2812701")) |> nrow() # these IDs exist
+district_boundaries |> filter(ID %in% c("04902", "28006", "28106", "28123", "28127")) |> nrow() # these do not
+```
+
+Threfore it is unclear with which spatial data the trip counts in the trips per person data for municipalities is actually associated.
+
+Let's filter the spatial data for both districts and municipalities to only include these IDs and compare them visually.
+
+```{r}
+municipal_boundaries_subset <- municipal_boundaries |> filter(ID %in% c("0490201", "2800601", "2810601", "2812301", "2812701"))
+district_boundaries_subset <- district_boundaries |> filter(ID %in% c("0490201", "2800601", "2810601", "2812301", "2812701"))
+```
+
+```{r}
+ggplot()+
+  geom_sf(data = municipal_boundaries_subset, fill = "grey50", col = NA) +
+  geom_sf(data = district_boundaries_subset, fill = NA, col = "blue")
+```
+
+These seem to match perfectly, therefore they can probably be assumed to be the same.
+
+### Is there such an issue with the district level data?
+
+```{r}
+trips_per_person_2020_03_14_distr <- readr::read_delim(
+  here("data/raw_data_cache/v1/maestra2-mitma-distritos/ficheros-diarios/year=2020/month=3/day=14/maestra_2_mitma_distrito.txt.gz"),
+  delim = "|", show_col_types = FALSE, name_repair = "unique_quiet")
+trips_per_person_2020_10_01_distr <- readr::read_delim(
+  here("data/raw_data_cache/v1/maestra2-mitma-distritos/ficheros-diarios/year=2020/month=10/day=1/maestra_2_mitma_distrito.txt.gz"),
+  delim = "|", show_col_types = FALSE, name_repair = "unique_quiet")
+
+
+trips_per_person_2020_03_14_distr |> filter(distrito %in% c("0490201", "2800601", "2810601", "2812301", "2812701")) |> nrow()
+trips_per_person_2020_03_14_distr |> filter(distrito %in% c("04902", "28006", "28106", "28123", "28127")) |> nrow()
+
+trips_per_person_2020_10_01_distr |> filter(distrito %in% c("0490201", "2800601", "2810601", "2812301", "2812701")) |> nrow()
+trips_per_person_2020_10_01_distr |> filter(distrito %in% c("04902", "28006", "28106", "28123", "28127")) |> nrow()
+```
+
+No such issue, the data for districts seem to be consistent.
+
+### Is there such an issue with the origin-destination data?
+
+```{r}
+od_municip_2020_03_14 <- readr::read_delim(
+  here("data/raw_data_cache/v1/maestra1-mitma-municipios/ficheros-diarios/year=2020/month=3/day=14/maestra_1_mitma_municipio.txt.gz"),
+  delim = "|", show_col_types = FALSE, name_repair = "unique_quiet")
+
+
+od_municip_2020_10_01 <- readr::read_delim(
+  here("data/raw_data_cache/v1/maestra1-mitma-municipios/ficheros-diarios/year=2020/month=10/day=1/maestra_1_mitma_municipio.txt.gz"),
+  delim = "|", show_col_types = FALSE, name_repair = "unique_quiet")
+
+
+od_municip_2020_03_14 |> filter(origen %in% c("0490201", "2800601", "2810601", "2812301", "2812701")) |> nrow()
+od_municip_2020_03_14 |> filter(origen %in% c("04902", "28006", "28106", "28123", "28127")) |> nrow()
+od_municip_2020_03_14 |> filter(destino %in% c("0490201", "2800601", "2810601", "2812301", "2812701")) |> nrow()
+od_municip_2020_03_14 |> filter(destino %in% c("04902", "28006", "28106", "28123", "28127")) |> nrow()
+```
+
+The data for origin-destination seem to be consistent.
+
+### Conclusion and how the issue should be fixed
+
+The zone IDs in the tables for municipal level trips per person data and spatial data do not match starting with a certain date. The zones with IDs "0490201", "2800601", "2810601", "2812301", "2812701" should be recoded to "04902", "28006", "28106", "28123", "28127" during the import process of the trips per person tables. This can be easily done using the existing approach of SQL-based view creation in the [`{spanishoddata}`](https://github.com/Robinlovelace/spanishoddata){target='_blank'} R package.
+
+### Links to the original files
+
+```{r}
+files <- spanishoddata:::spod_available_data(1, data_dir = here("data"))
+
+# Filter relevant files
+relevant_files <- files |> 
+  filter((local_path %in% c(
+    trips_per_person_file_2020_03_14,
+    trips_per_person_file_2020_10_01)) |
+    grepl("zonificacion", local_path)
+  )
+
+# Create HTML links
+relevant_files <- relevant_files |> 
+  mutate(target_url = paste0("<a href='", target_url, "' target='_blank'>", target_url, "</a>"))
+
+# Render the DT table with links
+datatable(relevant_files, escape = FALSE, options = list(pageLength = 5))
+```

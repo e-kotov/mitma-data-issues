@@ -16,6 +16,7 @@ status: "✅ resolved"
 
 **Status**: {{< meta status >}}
 
+**Importance**: {{< meta issue-importance >}}
 
 **Summary**: CSV file with Large Urban Areas population data is missing column names.
 
