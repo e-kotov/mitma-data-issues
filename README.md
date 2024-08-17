@@ -10,6 +10,11 @@ in the <a
 href="https://www.transportes.gob.es/ministerio/proyectos-singulares/estudios-de-movilidad-con-big-data/opendata-movilidad"
 target="_blank">MITMA open mobility data</a>
 
+**The identified issues are being gradually resolved in the
+<a href="https://github.com/Robinlovelace/spanishoddata"
+target="_blank"><code>{spanishoddata}</code></a> R package (currently
+work in progress).**
+
 The data in this repository contains *“datos abiertos MITMA” (“MITMA
 open data”)* (Secretaría de Estado de Infraestructuras, Transporte y
 Vivienda (Secretariat of State for Infrastructure, Transport, and
