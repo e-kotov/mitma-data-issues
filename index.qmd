@@ -2,20 +2,38 @@
 title: "Issues in MITMA open mobility data"
 
 listing:
-  id: "issues"
-  contents: issues
-  type: table
-  table-hover: true
-  image-align: right
-  max-description-length: 175
-  categories: true
-  sort: "status desc issue-importance desc"
-  sort-ui: [status, date, date-modified, issue-importance]
-  date-format: iso
-  # filter-ui: [date, date-modified, title, categories, issue-number]
-  # fields: [date, date-modified, title, categories, issue-number]
-  filter-ui: [date, date-modified, title, categories, issue-importance, status]
-  fields: [date, date-modified, title, categories, issue-importance, status]
+  - id: "active"
+    contents: issues
+    type: table
+    table-hover: true
+    image-align: right
+    max-description-length: 175
+    categories: true
+    sort: "issue-importance desc"
+    sort-ui: [date, date-modified, issue-importance]
+    date-format: iso
+    # filter-ui: [date, date-modified, title, categories, issue-number]
+    # fields: [date, date-modified, title, categories, issue-number]
+    filter-ui: [date, date-modified, title, categories, issue-importance]
+    fields: [date, date-modified, title, categories, issue-importance]
+    include:
+      status: "⚠️ active"
+  - id: "resolved"
+    contents: issues
+    type: table
+    table-hover: true
+    image-align: right
+    max-description-length: 175
+    categories: true
+    sort: "issue-importance desc"
+    sort-ui: [date, date-modified, issue-importance]
+    date-format: iso
+    # filter-ui: [date, date-modified, title, categories, issue-number]
+    # fields: [date, date-modified, title, categories, issue-number]
+    filter-ui: [date, date-modified, title, categories, issue-importance]
+    fields: [date, date-modified, title, categories, issue-importance]
+    include:
+      status: "✅ resolved"
 
 page-layout: full
 title-block-banner: false
@@ -54,7 +72,12 @@ Full data license is available [here](https://movilidad-opendata.mitma.es/LICENC
 *This repository can be opened in a web browser using Binder to explore all issues (under `issues` subfolder) interactively with `R/Rstudio`. Push the button >> [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/e-kotov/mitma-data-issues/HEAD?urlpath=rstudio){target="_blank"}*
 
 
-## Issues list {.unnumbered}
+## Active Issues {.unnumbered}
 
-::: {#issues}
+::: {#active}
+:::
+
+## Resolved Issues {.unnumbered}
+
+::: {#resolved}
 :::
