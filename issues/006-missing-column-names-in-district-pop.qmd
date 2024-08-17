@@ -9,7 +9,7 @@ categories:
     - metadata
     - "importance: low"
 issue-importance: "1 - low"
-status: "active"
+status: "⚠️ active"
 ---
 
 ---
@@ -79,5 +79,3 @@ relevant_files <- relevant_files |>
 # Render the DT table with links
 datatable(relevant_files, escape = FALSE, options = list(pageLength = 5))
 ```
-
-

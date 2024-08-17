@@ -3,13 +3,13 @@ title: "Invalid Geometries in Large Urban Areas Boundaries"
 from: markdown+emoji
 code-annotations: hover
 date: "2024-07-17"
-date-modified: "2024-07-17"
+date-modified: "2024-08-17"
 categories:
     - spatial data
     - geometry
     - "importance: medium"
 issue-importance: "2 - medium"
-status: "active"
+status: "✅ resolved"
 ---
 
 ---
@@ -20,6 +20,22 @@ status: "active"
 
 **Expected Results**: The dataset should not contain any invalid geometries.
 
+---
+
+**Resolution**: resolved with [https://github.com/Robinlovelace/spanishoddata/pull/25](https://github.com/Robinlovelace/spanishoddata/pull/25){target='_blank'} in [`{spanishoddata}`](https://github.com/Robinlovelace/spanishoddata){target='_blank'} R package. 
+
+To get valid spatial data, use `spanishoddata::`[`spod_get_zones()`](https://robinlovelace.github.io/spanishoddata/reference/spod_get_zones.html){target='_blank'}
+
+```{r}
+#| eval: false
+install.packages("spanishoddata",
+  repos = c("https://e-kotov.r-universe.dev", "https://cloud.r-project.org"))
+
+zones <- spanishoddata::spod_get_zones("gau", ver = 2)
+```
+
+
+---
 
 ### Steps to Reproduce
 
@@ -94,5 +110,3 @@ relevant_files <- relevant_files |>
 # Render the DT table with links
 datatable(relevant_files, escape = FALSE, options = list(pageLength = 5))
 ```
-
-

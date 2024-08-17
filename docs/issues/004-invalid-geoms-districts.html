@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.54">
+<meta name="generator" content="quarto-1.5.56">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -242,7 +242,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">July 17, 2024</p>
+      <p class="date-modified">August 17, 2024</p>
     </div>
   </div>
     
@@ -254,9 +254,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <hr>
-<p><strong>Status</strong>: active</p>
+<p><strong>Status</strong>: ✅ resolved</p>
 <p><strong>Summary</strong>: There are 3 invalid geometries in the census districts boundaries dataset.</p>
 <p><strong>Expected Results</strong>: The dataset should not contain any invalid geometries.</p>
+<hr>
+<p><strong>Resolution</strong>: resolved with <a href="https://github.com/Robinlovelace/spanishoddata/pull/25" target="_blank">https://github.com/Robinlovelace/spanishoddata/pull/25</a> in <a href="https://github.com/Robinlovelace/spanishoddata" target="_blank"><code>{spanishoddata}</code></a> R package.</p>
+<p>To get valid spatial data, use <code>spanishoddata::</code><a href="https://robinlovelace.github.io/spanishoddata/reference/spod_get_zones.html" target="_blank"><code>spod_get_zones()</code></a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"spanishoddata"</span>,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">repos =</span> <span class="fu">c</span>(<span class="st">"https://e-kotov.r-universe.dev"</span>, <span class="st">"https://cloud.r-project.org"</span>))</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>zones <span class="ot">&lt;-</span> spanishoddata<span class="sc">::</span><span class="fu">spod_get_zones</span>(<span class="st">"distr"</span>, <span class="at">ver =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
 <section id="steps-to-reproduce" class="level3">
 <h3 class="anchored" data-anchor-id="steps-to-reproduce">Steps to Reproduce</h3>
 <ol type="1">
@@ -264,30 +274,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 <p>Load libraries and define data files.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DT)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>district_boundaries_data_file <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">"data/raw_data/v2/zonificacion/zonificacion_distritos/zonificacion_distritos.shp"</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>district_names_file <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">"data/raw_data/v2/zonificacion/zonificacion_distritos/nombres_distritos.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DT)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>district_boundaries_data_file <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">"data/raw_data/v2/zonificacion/zonificacion_distritos/zonificacion_distritos.shp"</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>district_names_file <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">"data/raw_data/v2/zonificacion/zonificacion_distritos/nombres_distritos.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Load the data and join the district names to the boundaries.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>district_boundaries <span class="ot">&lt;-</span> <span class="fu">read_sf</span>(district_boundaries_data_file)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>district_names <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(district_names_file,</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">delim =</span> <span class="st">"|"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>, <span class="at">name_repair =</span> <span class="st">"unique_quiet"</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>district_boundaries <span class="ot">&lt;-</span> district_boundaries <span class="sc">|&gt;</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(district_names <span class="sc">|&gt;</span> <span class="fu">select</span>(ID, name), <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"ID"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>district_boundaries <span class="ot">&lt;-</span> <span class="fu">read_sf</span>(district_boundaries_data_file)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>district_names <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(district_names_file,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">delim =</span> <span class="st">"|"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>, <span class="at">name_repair =</span> <span class="st">"unique_quiet"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>district_boundaries <span class="ot">&lt;-</span> district_boundaries <span class="sc">|&gt;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(district_names <span class="sc">|&gt;</span> <span class="fu">select</span>(ID, name), <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"ID"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="2" type="1">
 <li><strong>Identify Invalid Geometries</strong></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>district_boundaries_invalid <span class="ot">&lt;-</span> <span class="sc">!</span><span class="fu">st_is_valid</span>(district_boundaries)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>district_boundaries_invalid <span class="ot">&lt;-</span> <span class="sc">!</span><span class="fu">st_is_valid</span>(district_boundaries)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="results" class="level3">
@@ -296,7 +306,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Number of Invalid Geometries</strong></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(district_boundaries_invalid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(district_boundaries_invalid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3</code></pre>
 </div>
@@ -305,32 +315,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Names of Districts with Invalid Geometries</strong></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">datatable</span>(district_boundaries[district_boundaries_invalid,] <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">datatable</span>(district_boundaries[district_boundaries_invalid,] <span class="sc">|&gt;</span> <span class="fu">st_drop_geometry</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-e2ba4a0173bd61133621" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-e2ba4a0173bd61133621">{"x":{"filter":"none","vertical":false,"data":[["1","2","3"],["20059","31067_AM","31260_AM"],["Oñati","Carcastillo agregacion de municipios","Valle de Yerri/Deierri agregacion de municipios"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>ID<\/th>\n      <th>name<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"ID","targets":1},{"name":"name","targets":2}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-557b6d89fee5d7f50b65" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-557b6d89fee5d7f50b65">{"x":{"filter":"none","vertical":false,"data":[["1","2","3"],["20059","31067_AM","31260_AM"],["Oñati","Carcastillo agregacion de municipios","Valle de Yerri/Deierri agregacion de municipios"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>ID<\/th>\n      <th>name<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"ID","targets":1},{"name":"name","targets":2}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
 <section id="links-to-the-original-files" class="level3">
 <h3 class="anchored" data-anchor-id="links-to-the-original-files">Links to the original files</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="fu">here</span>(<span class="st">"R/901-download-helpers.R"</span>))</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">load_latest_v2_xml</span>()</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter relevant files</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>relevant_files <span class="ot">&lt;-</span> files <span class="sc">|&gt;</span> </span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">basename</span>(local_path) <span class="sc">%in%</span> <span class="fu">basename</span>(<span class="fu">c</span>(district_boundaries_data_file, district_names_file)) )</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Create HTML links</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>relevant_files <span class="ot">&lt;-</span> relevant_files <span class="sc">|&gt;</span> </span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">target_url =</span> <span class="fu">paste0</span>(<span class="st">"&lt;a href='"</span>, target_url, <span class="st">"' target='_blank'&gt;"</span>, target_url, <span class="st">"&lt;/a&gt;"</span>))</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Render the DT table with links</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(relevant_files, <span class="at">escape =</span> <span class="cn">FALSE</span>, <span class="at">options =</span> <span class="fu">list</span>(<span class="at">pageLength =</span> <span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="fu">here</span>(<span class="st">"R/901-download-helpers.R"</span>))</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">load_latest_v2_xml</span>()</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter relevant files</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>relevant_files <span class="ot">&lt;-</span> files <span class="sc">|&gt;</span> </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">basename</span>(local_path) <span class="sc">%in%</span> <span class="fu">basename</span>(<span class="fu">c</span>(district_boundaries_data_file, district_names_file)) )</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Create HTML links</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>relevant_files <span class="ot">&lt;-</span> relevant_files <span class="sc">|&gt;</span> </span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">target_url =</span> <span class="fu">paste0</span>(<span class="st">"&lt;a href='"</span>, target_url, <span class="st">"' target='_blank'&gt;"</span>, target_url, <span class="st">"&lt;/a&gt;"</span>))</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Render the DT table with links</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(relevant_files, <span class="at">escape =</span> <span class="cn">FALSE</span>, <span class="at">options =</span> <span class="fu">list</span>(<span class="at">pageLength =</span> <span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-220454beaf3375405224" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-220454beaf3375405224">{"x":{"filter":"none","vertical":false,"data":[["1","2"],["<a href='https://movilidad-opendata.mitma.es/zonificacion/zonificacion_distritos/nombres_distritos.csv' target='_blank'>https://movilidad-opendata.mitma.es/zonificacion/zonificacion_distritos/nombres_distritos.csv<\/a>","<a href='https://movilidad-opendata.mitma.es/zonificacion/zonificacion_distritos/zonificacion_distritos.shp' target='_blank'>https://movilidad-opendata.mitma.es/zonificacion/zonificacion_distritos/zonificacion_distritos.shp<\/a>"],["2023-04-19T09:57:02Z","2023-04-19T09:57:02Z"],["csv","shp"],[null,null],[null,null],["data/raw_data/v2/zonificacion/zonificacion_distritos/nombres_distritos.csv","data/raw_data/v2/zonificacion/zonificacion_distritos/zonificacion_distritos.shp"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>target_url<\/th>\n      <th>pub_ts<\/th>\n      <th>file_extension<\/th>\n      <th>data_ym<\/th>\n      <th>data_ymd<\/th>\n      <th>local_path<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"columnDefs":[{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"target_url","targets":1},{"name":"pub_ts","targets":2},{"name":"file_extension","targets":3},{"name":"data_ym","targets":4},{"name":"data_ymd","targets":5},{"name":"local_path","targets":6}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-373d672341de186120e5" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-373d672341de186120e5">{"x":{"filter":"none","vertical":false,"data":[["1","2"],["<a href='https://movilidad-opendata.mitma.es/zonificacion/zonificacion_distritos/nombres_distritos.csv' target='_blank'>https://movilidad-opendata.mitma.es/zonificacion/zonificacion_distritos/nombres_distritos.csv<\/a>","<a href='https://movilidad-opendata.mitma.es/zonificacion/zonificacion_distritos/zonificacion_distritos.shp' target='_blank'>https://movilidad-opendata.mitma.es/zonificacion/zonificacion_distritos/zonificacion_distritos.shp<\/a>"],["2023-04-19T09:57:02Z","2023-04-19T09:57:02Z"],["csv","shp"],[null,null],[null,null],["data/raw_data/v2/zonificacion/zonificacion_distritos/nombres_distritos.csv","data/raw_data/v2/zonificacion/zonificacion_distritos/zonificacion_distritos.shp"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>target_url<\/th>\n      <th>pub_ts<\/th>\n      <th>file_extension<\/th>\n      <th>data_ym<\/th>\n      <th>data_ymd<\/th>\n      <th>local_path<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"columnDefs":[{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"target_url","targets":1},{"name":"pub_ts","targets":2},{"name":"file_extension","targets":3},{"name":"data_ym","targets":4},{"name":"data_ymd","targets":5},{"name":"local_path","targets":6}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 

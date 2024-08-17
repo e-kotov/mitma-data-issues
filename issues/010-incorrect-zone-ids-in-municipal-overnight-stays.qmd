@@ -3,23 +3,30 @@ title: "District zone IDs in municipal overnight stays data"
 from: markdown+emoji
 code-annotations: hover
 date: "2024-07-16"
-date-modified: "2024-07-17"
+date-modified: "2024-08-17"
 categories:
     - tabular data
     - incorrect data
     - zone IDs mismatch
     - "importance: high"
-issue-importance: "3 - high"
-status: "active"
+issue-importance: "2 - medium"
+status: "⚠️ active"
 ---
 
 ---
 
 **Status**: {{< meta status >}}
 
+**Note**: According to the [official methodology](https://www.transportes.gob.es/recursos_mfom/paginabasica/recursos/a3_informe_metodologico_resumen_v6.pdf) this is by design. However, still needs to be addressed in workflows within the [`{spanishoddata}`](https://github.com/Robinlovelace/spanishoddata){target='_blank'} R package.
+
 **Summary**: The zone IDs in the municipal overnight stays data are not consistent with the zone IDs in the municipal boundaries data. The zone IDs in the municipal overnight stays data for the residential location column `zona_residencia` are a combination of district and municipal IDs.
 
 **Expected Results**: The zone IDs in the municipal overnight stays data should be consistent with the zone IDs in the municipal boundaries data (unless the use of district IDs in the residential location column `zona_residencia` is intentional).
+
+---
+
+
+---
 
 
 ### Steps to Reproduce
@@ -112,5 +119,3 @@ relevant_files <- relevant_files |>
 # Render the DT table with links
 datatable(relevant_files, escape = FALSE, options = list(pageLength = 5))
 ```
-
-

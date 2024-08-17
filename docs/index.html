@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.54">
+<meta name="generator" content="quarto-1.5.56">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -282,7 +282,8 @@ window.Quarto = {
 </header>
 
 
-<p>This is a collection of issues identified (and resolved, if applicable) in the <a href="https://www.transportes.gob.es/ministerio/proyectos-singulares/estudios-de-movilidad-con-big-data/opendata-movilidad" target="_blank">MITMA open mobility data</a></p>
+<p>This is a collection of issues identified (and resolved, if applicable) in the <a href="https://www.transportes.gob.es/ministerio/proyectos-singulares/estudios-de-movilidad-con-big-data/opendata-movilidad" target="_blank">MITMA open mobility data</a>.</p>
+<p><strong>The identified issues are being gradually resolved in the <a href="https://github.com/Robinlovelace/spanishoddata" target="_blank"><code>{spanishoddata}</code></a> R package (currently work in progress).</strong></p>
 <p>The data in this repository contains <em>“datos abiertos MITMA” (“MITMA open data”)</em> <span class="citation" data-cites="mitma-mobility-2024-v6">(<a href="#ref-mitma-mobility-2024-v6" role="doc-biblioref">Secretaría de Estado de Infraestructuras, Transporte y Vivienda (Secretariat of State for Infrastructure, Transport, and Housing) 2024</a>)</span> downloaded from <a href="https://www.transportes.gob.es/ministerio/proyectos-singulares/estudios-de-movilidad-con-big-data/opendata-movilidad" target="_blank">this page</a>.</p>
 <p>Full data license is available <a href="https://movilidad-opendata.mitma.es/LICENCIA%20de%20datos%20abiertos%20del%20MITMA%2020201203.pdf" target="_blank">here</a>.</p>
 <p><em>This repository can be opened in a web browser using Binder to explore all issues (under <code>issues</code> subfolder) interactively with <code>R/Rstudio</code>. Push the button &gt;&gt; <a href="https://mybinder.org/v2/gh/e-kotov/mitma-data-issues/HEAD?urlpath=rstudio" target="_blank"><img src="https://mybinder.org/badge_logo.svg" class="img-fluid" alt="Binder"></a></em></p>
@@ -295,6 +296,9 @@ window.Quarto = {
      <select id="listing-issues-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-issues'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
        <option value="" disabled="" selected="" hidden="">Order By</option>
        <option value="index" data-direction="asc">Default</option>
+         <option value="listing-status" data-direction="asc">
+          status
+        </option>
          <option value="listing-date-sort" data-direction="asc">
           Date - Oldest
         </option>
@@ -309,9 +313,6 @@ window.Quarto = {
         </option>
          <option value="listing-issue-importance" data-direction="asc">
           issue-importance
-        </option>
-         <option value="listing-status" data-direction="asc">
-          status
         </option>
      </select>
   </div>
@@ -344,91 +345,7 @@ Categories
 </tr>
 </thead>
 <tbody class="list">
-<tr data-index="0" data-categories="tabular data,incorrect data,zone IDs mismatch,importance: high" data-listing-date-sort="1721080800000" data-listing-file-modified-sort="1721253845904" data-listing-date-modified-sort="1721167200000" data-listing-reading-time-sort="2" data-listing-word-count-sort="332" data-listing-title-sort="District zone IDs in municipal overnight stays data" data-listing-filename-sort="010-incorrect-zone-ids-in-municipal-overnight-stays.qmd" onclick="href = this.querySelector('a').getAttribute('href');
- if (href) { window.location=href ; return false; }">
-<td>
-<span class="listing-date">2024-07-16</span>
-</td>
-<td>
-<span class="listing-date-modified">2024-07-17</span>
-</td>
-<td>
-<a href="./issues/010-incorrect-zone-ids-in-municipal-overnight-stays.html" class="title listing-title">District zone IDs in municipal overnight stays data</a>
-</td>
-<td>
-<span class="listing-categories">tabular data, incorrect data, zone IDs mismatch, importance: high</span>
-</td>
-<td>
-<span class="listing-issue-importance">3 - high</span>
-</td>
-<td>
-<span class="listing-status">active</span>
-</td>
-</tr>
-<tr data-index="1" data-categories="spatial data,geometry,importance: medium" data-listing-date-sort="1721080800000" data-listing-file-modified-sort="1721253876876" data-listing-date-modified-sort="1721080800000" data-listing-reading-time-sort="1" data-listing-word-count-sort="145" data-listing-title-sort="Invalid Geometries in Municipality Boundaries" data-listing-filename-sort="001-invalid-geoms-municipalities.qmd" onclick="href = this.querySelector('a').getAttribute('href');
- if (href) { window.location=href ; return false; }">
-<td>
-<span class="listing-date">2024-07-16</span>
-</td>
-<td>
-<span class="listing-date-modified">2024-07-16</span>
-</td>
-<td>
-<a href="./issues/001-invalid-geoms-municipalities.html" class="title listing-title">Invalid Geometries in Municipality Boundaries</a>
-</td>
-<td>
-<span class="listing-categories">spatial data, geometry, importance: medium</span>
-</td>
-<td>
-<span class="listing-issue-importance">2 - medium</span>
-</td>
-<td>
-<span class="listing-status">active</span>
-</td>
-</tr>
-<tr data-index="2" data-categories="spatial data,geometry,importance: medium" data-listing-date-sort="1721167200000" data-listing-file-modified-sort="1721253892080" data-listing-date-modified-sort="1721167200000" data-listing-reading-time-sort="1" data-listing-word-count-sort="146" data-listing-title-sort="Invalid Geometries in District Boundaries" data-listing-filename-sort="004-invalid-geoms-districts.qmd" onclick="href = this.querySelector('a').getAttribute('href');
- if (href) { window.location=href ; return false; }">
-<td>
-<span class="listing-date">2024-07-17</span>
-</td>
-<td>
-<span class="listing-date-modified">2024-07-17</span>
-</td>
-<td>
-<a href="./issues/004-invalid-geoms-districts.html" class="title listing-title">Invalid Geometries in District Boundaries</a>
-</td>
-<td>
-<span class="listing-categories">spatial data, geometry, importance: medium</span>
-</td>
-<td>
-<span class="listing-issue-importance">2 - medium</span>
-</td>
-<td>
-<span class="listing-status">active</span>
-</td>
-</tr>
-<tr data-index="3" data-categories="spatial data,geometry,importance: medium" data-listing-date-sort="1721167200000" data-listing-file-modified-sort="1721253898486" data-listing-date-modified-sort="1721167200000" data-listing-reading-time-sort="1" data-listing-word-count-sort="151" data-listing-title-sort="Invalid Geometries in Large Urban Areas Boundaries" data-listing-filename-sort="005-invalid-geoms-gau.qmd" onclick="href = this.querySelector('a').getAttribute('href');
- if (href) { window.location=href ; return false; }">
-<td>
-<span class="listing-date">2024-07-17</span>
-</td>
-<td>
-<span class="listing-date-modified">2024-07-17</span>
-</td>
-<td>
-<a href="./issues/005-invalid-geoms-gau.html" class="title listing-title">Invalid Geometries in Large Urban Areas Boundaries</a>
-</td>
-<td>
-<span class="listing-categories">spatial data, geometry, importance: medium</span>
-</td>
-<td>
-<span class="listing-issue-importance">2 - medium</span>
-</td>
-<td>
-<span class="listing-status">active</span>
-</td>
-</tr>
-<tr data-index="4" data-categories="tabular data,metadata,importance: low" data-listing-date-sort="1721167200000" data-listing-file-modified-sort="1721253882832" data-listing-date-modified-sort="1721167200000" data-listing-reading-time-sort="1" data-listing-word-count-sort="110" data-listing-title-sort="Missing column names in municipal population CSV" data-listing-filename-sort="002-missing-column-names-in-municip-pop.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="0" data-categories="tabular data,metadata,importance: low" data-listing-date-sort="1721167200000" data-listing-file-modified-sort="1723889771677" data-listing-date-modified-sort="1721167200000" data-listing-reading-time-sort="1" data-listing-word-count-sort="110" data-listing-title-sort="Missing column names in municipal population CSV" data-listing-filename-sort="002-missing-column-names-in-municip-pop.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <span class="listing-date">2024-07-17</span>
@@ -446,10 +363,10 @@ Categories
 <span class="listing-issue-importance">1 - low</span>
 </td>
 <td>
-<span class="listing-status">active</span>
+<span class="listing-status">⚠️ active</span>
 </td>
 </tr>
-<tr data-index="5" data-categories="tabular data,metadata,importance: low" data-listing-date-sort="1721167200000" data-listing-file-modified-sort="1721253903564" data-listing-date-modified-sort="1721167200000" data-listing-reading-time-sort="1" data-listing-word-count-sort="110" data-listing-title-sort="Missing column names in district population CSV" data-listing-filename-sort="006-missing-column-names-in-district-pop.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="1" data-categories="tabular data,metadata,importance: low" data-listing-date-sort="1721167200000" data-listing-file-modified-sort="1723890153300" data-listing-date-modified-sort="1721167200000" data-listing-reading-time-sort="1" data-listing-word-count-sort="110" data-listing-title-sort="Missing column names in district population CSV" data-listing-filename-sort="006-missing-column-names-in-district-pop.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <span class="listing-date">2024-07-17</span>
@@ -467,10 +384,10 @@ Categories
 <span class="listing-issue-importance">1 - low</span>
 </td>
 <td>
-<span class="listing-status">active</span>
+<span class="listing-status">⚠️ active</span>
 </td>
 </tr>
-<tr data-index="6" data-categories="tabular data,metadata,importance: low" data-listing-date-sort="1721167200000" data-listing-file-modified-sort="1721253908034" data-listing-date-modified-sort="1721167200000" data-listing-reading-time-sort="1" data-listing-word-count-sort="116" data-listing-title-sort="Missing column names in Large Urban Areas population CSV" data-listing-filename-sort="007-missing-column-names-for-large-urban-areas.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="2" data-categories="tabular data,metadata,importance: low" data-listing-date-sort="1721167200000" data-listing-file-modified-sort="1723890155547" data-listing-date-modified-sort="1721167200000" data-listing-reading-time-sort="1" data-listing-word-count-sort="116" data-listing-title-sort="Missing column names in Large Urban Areas population CSV" data-listing-filename-sort="007-missing-column-names-for-large-urban-areas.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <span class="listing-date">2024-07-17</span>
@@ -488,10 +405,10 @@ Categories
 <span class="listing-issue-importance">1 - low</span>
 </td>
 <td>
-<span class="listing-status">active</span>
+<span class="listing-status">⚠️ active</span>
 </td>
 </tr>
-<tr data-index="7" data-categories="tabular data,missing data,importance: low" data-listing-date-sort="1721080800000" data-listing-file-modified-sort="1721253886957" data-listing-date-modified-sort="1721080800000" data-listing-reading-time-sort="3" data-listing-word-count-sort="497" data-listing-title-sort="Municipal population CSV missing population counts" data-listing-filename-sort="003-missing-population-counts-for-municipalities.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="3" data-categories="tabular data,missing data,importance: low" data-listing-date-sort="1721080800000" data-listing-file-modified-sort="1723890148211" data-listing-date-modified-sort="1721080800000" data-listing-reading-time-sort="3" data-listing-word-count-sort="497" data-listing-title-sort="Municipal population CSV missing population counts" data-listing-filename-sort="003-missing-population-counts-for-municipalities.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <span class="listing-date">2024-07-16</span>
@@ -509,10 +426,10 @@ Categories
 <span class="listing-issue-importance">1 - low</span>
 </td>
 <td>
-<span class="listing-status">active</span>
+<span class="listing-status">⚠️ active</span>
 </td>
 </tr>
-<tr data-index="8" data-categories="tabular data,missing data,importance: low" data-listing-date-sort="1721080800000" data-listing-file-modified-sort="1721253914319" data-listing-date-modified-sort="1721167200000" data-listing-reading-time-sort="3" data-listing-word-count-sort="497" data-listing-title-sort="District population CSV missing population counts" data-listing-filename-sort="008-missing-population-counts-for-districts.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="4" data-categories="tabular data,missing data,importance: low" data-listing-date-sort="1721080800000" data-listing-file-modified-sort="1723890157144" data-listing-date-modified-sort="1721167200000" data-listing-reading-time-sort="3" data-listing-word-count-sort="497" data-listing-title-sort="District population CSV missing population counts" data-listing-filename-sort="008-missing-population-counts-for-districts.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <span class="listing-date">2024-07-16</span>
@@ -530,10 +447,10 @@ Categories
 <span class="listing-issue-importance">1 - low</span>
 </td>
 <td>
-<span class="listing-status">active</span>
+<span class="listing-status">⚠️ active</span>
 </td>
 </tr>
-<tr data-index="9" data-categories="tabular data,missing data,importance: low" data-listing-date-sort="1721080800000" data-listing-file-modified-sort="1721253918470" data-listing-date-modified-sort="1721167200000" data-listing-reading-time-sort="3" data-listing-word-count-sort="508" data-listing-title-sort="Large Urban Areas population CSV missing population counts" data-listing-filename-sort="009-missing-population-counts-for-large-urban-ares.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+<tr data-index="5" data-categories="tabular data,missing data,importance: low" data-listing-date-sort="1721080800000" data-listing-file-modified-sort="1723890158869" data-listing-date-modified-sort="1721167200000" data-listing-reading-time-sort="3" data-listing-word-count-sort="508" data-listing-title-sort="Large Urban Areas population CSV missing population counts" data-listing-filename-sort="009-missing-population-counts-for-large-urban-ares.qmd" onclick="href = this.querySelector('a').getAttribute('href');
  if (href) { window.location=href ; return false; }">
 <td>
 <span class="listing-date">2024-07-16</span>
@@ -551,7 +468,91 @@ Categories
 <span class="listing-issue-importance">1 - low</span>
 </td>
 <td>
-<span class="listing-status">active</span>
+<span class="listing-status">⚠️ active</span>
+</td>
+</tr>
+<tr data-index="6" data-categories="tabular data,incorrect data,zone IDs mismatch,importance: high" data-listing-date-sort="1721080800000" data-listing-file-modified-sort="1723890289525" data-listing-date-modified-sort="1723845600000" data-listing-reading-time-sort="2" data-listing-word-count-sort="354" data-listing-title-sort="District zone IDs in municipal overnight stays data" data-listing-filename-sort="010-incorrect-zone-ids-in-municipal-overnight-stays.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+ if (href) { window.location=href ; return false; }">
+<td>
+<span class="listing-date">2024-07-16</span>
+</td>
+<td>
+<span class="listing-date-modified">2024-08-17</span>
+</td>
+<td>
+<a href="./issues/010-incorrect-zone-ids-in-municipal-overnight-stays.html" class="title listing-title">District zone IDs in municipal overnight stays data</a>
+</td>
+<td>
+<span class="listing-categories">tabular data, incorrect data, zone IDs mismatch, importance: high</span>
+</td>
+<td>
+<span class="listing-issue-importance">2 - medium</span>
+</td>
+<td>
+<span class="listing-status">⚠️ active</span>
+</td>
+</tr>
+<tr data-index="7" data-categories="spatial data,geometry,importance: medium" data-listing-date-sort="1721080800000" data-listing-file-modified-sort="1723890192304" data-listing-date-modified-sort="1723845600000" data-listing-reading-time-sort="1" data-listing-word-count-sort="171" data-listing-title-sort="Invalid Geometries in Municipality Boundaries" data-listing-filename-sort="001-invalid-geoms-municipalities.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+ if (href) { window.location=href ; return false; }">
+<td>
+<span class="listing-date">2024-07-16</span>
+</td>
+<td>
+<span class="listing-date-modified">2024-08-17</span>
+</td>
+<td>
+<a href="./issues/001-invalid-geoms-municipalities.html" class="title listing-title">Invalid Geometries in Municipality Boundaries</a>
+</td>
+<td>
+<span class="listing-categories">spatial data, geometry, importance: medium</span>
+</td>
+<td>
+<span class="listing-issue-importance">2 - medium</span>
+</td>
+<td>
+<span class="listing-status">✅ resolved</span>
+</td>
+</tr>
+<tr data-index="8" data-categories="spatial data,geometry,importance: medium" data-listing-date-sort="1721167200000" data-listing-file-modified-sort="1723890184313" data-listing-date-modified-sort="1723845600000" data-listing-reading-time-sort="1" data-listing-word-count-sort="172" data-listing-title-sort="Invalid Geometries in District Boundaries" data-listing-filename-sort="004-invalid-geoms-districts.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+ if (href) { window.location=href ; return false; }">
+<td>
+<span class="listing-date">2024-07-17</span>
+</td>
+<td>
+<span class="listing-date-modified">2024-08-17</span>
+</td>
+<td>
+<a href="./issues/004-invalid-geoms-districts.html" class="title listing-title">Invalid Geometries in District Boundaries</a>
+</td>
+<td>
+<span class="listing-categories">spatial data, geometry, importance: medium</span>
+</td>
+<td>
+<span class="listing-issue-importance">2 - medium</span>
+</td>
+<td>
+<span class="listing-status">✅ resolved</span>
+</td>
+</tr>
+<tr data-index="9" data-categories="spatial data,geometry,importance: medium" data-listing-date-sort="1721167200000" data-listing-file-modified-sort="1723890180289" data-listing-date-modified-sort="1723845600000" data-listing-reading-time-sort="1" data-listing-word-count-sort="177" data-listing-title-sort="Invalid Geometries in Large Urban Areas Boundaries" data-listing-filename-sort="005-invalid-geoms-gau.qmd" onclick="href = this.querySelector('a').getAttribute('href');
+ if (href) { window.location=href ; return false; }">
+<td>
+<span class="listing-date">2024-07-17</span>
+</td>
+<td>
+<span class="listing-date-modified">2024-08-17</span>
+</td>
+<td>
+<a href="./issues/005-invalid-geoms-gau.html" class="title listing-title">Invalid Geometries in Large Urban Areas Boundaries</a>
+</td>
+<td>
+<span class="listing-categories">spatial data, geometry, importance: medium</span>
+</td>
+<td>
+<span class="listing-issue-importance">2 - medium</span>
+</td>
+<td>
+<span class="listing-status">✅ resolved</span>
 </td>
 </tr>
 </tbody>
