@@ -176,13 +176,62 @@ od_municip_2020_03_14 |> filter(origen %in% c("0490201", "2800601", "2810601", "
 od_municip_2020_03_14 |> filter(origen %in% c("04902", "28006", "28106", "28123", "28127")) |> nrow()
 od_municip_2020_03_14 |> filter(destino %in% c("0490201", "2800601", "2810601", "2812301", "2812701")) |> nrow()
 od_municip_2020_03_14 |> filter(destino %in% c("04902", "28006", "28106", "28123", "28127")) |> nrow()
+
+od_municip_2020_10_01 |> filter(origen %in% c("0490201", "2800601", "2810601", "2812301", "2812701")) |> nrow()
+od_municip_2020_10_01 |> filter(origen %in% c("04902", "28006", "28106", "28123", "28127")) |> nrow()
+od_municip_2020_10_01 |> filter(destino %in% c("0490201", "2800601", "2810601", "2812301", "2812701")) |> nrow()
+od_municip_2020_10_01 |> filter(destino %in% c("04902", "28006", "28106", "28123", "28127")) |> nrow()
 ```
 
-The data for origin-destination seem to be consistent.
+The data for origin-destination suffers from the same issue as the trips per person data.
+
+Check district level data:
+
+```{r}
+od_distr_2020_03_14 <- readr::read_delim(
+  here("data/raw_data_cache/v1/maestra1-mitma-distritos/ficheros-diarios/year=2020/month=3/day=14/maestra_1_mitma_distrito.txt.gz"),
+  delim = "|", show_col_types = FALSE, name_repair = "unique_quiet"
+)
+
+
+
+od_distr_2020_10_01 <- readr::read_delim(
+  here("data/raw_data_cache/v1/maestra1-mitma-distritos/ficheros-diarios/year=2020/month=10/day=1/maestra_1_mitma_distrito.txt.gz"),
+  delim = "|", show_col_types = FALSE, name_repair = "unique_quiet"
+)
+
+od_distr_2020_03_14 |> filter(origen %in% c("0490201", "2800601", "2810601", "2812301", "2812701")) |> nrow()
+od_distr_2020_03_14 |> filter(origen %in% c("04902", "28006", "28106", "28123", "28127")) |> nrow()
+od_distr_2020_03_14 |> filter(destino %in% c("0490201", "2800601", "2810601", "2812301", "2812701")) |> nrow()
+od_distr_2020_03_14 |> filter(destino %in% c("04902", "28006", "28106", "28123", "28127")) |> nrow()
+
+od_distr_2020_10_01 |> filter(origen %in% c("0490201", "2800601", "2810601", "2812301", "2812701")) |> nrow()
+od_distr_2020_10_01 |> filter(origen %in% c("04902", "28006", "28106", "28123", "28127")) |> nrow()
+od_distr_2020_10_01 |> filter(destino %in% c("0490201", "2800601", "2810601", "2812301", "2812701")) |> nrow()
+od_distr_2020_10_01 |> filter(destino %in% c("04902", "28006", "28106", "28123", "28127")) |> nrow()
+
+```
+
+District level data does not contain shorter zone IDs.
+
+Let us chek if the district level data on number of trips matches the number of trips per person in the municipality level data.
+
+```{r}
+od_municip_2020_03_14 |> filter(origen %in% c("0490201") & destino %in% c("03005_AM"))
+od_distr_2020_03_14 |> filter(origen %in% c("0490201") & destino %in% c("03005_AM"))
+```
+
+```{r}
+od_municip_2020_10_01 |> filter(origen %in% c("04902") & destino %in% c("03058_AM"))
+od_distr_2020_10_01 |> filter(origen %in% c("0490201") & destino %in% c("03058_AM"))
+```
+
+The data matches between municipal and district level datasests. Therefore, we can confrim that shorter zones IDs in some of the municipal level tables actually correspond to the longer zone IDs.
+
 
 ### Conclusion and how the issue should be fixed
 
-The zone IDs in the tables for municipal level trips per person data and spatial data do not match starting with a certain date. The zones with IDs "0490201", "2800601", "2810601", "2812301", "2812701" should be recoded to "04902", "28006", "28106", "28123", "28127" during the import process of the trips per person tables. This can be easily done using the existing approach of SQL-based view creation in the [`{spanishoddata}`](https://github.com/Robinlovelace/spanishoddata){target='_blank'} R package.
+The zone IDs in the tables for municipal level trips per person data and spatial data do not match starting with a certain date. The zones with IDs "04902", "28006", "28106", "28123", "28127" should be recodeed to "0490201", "2800601", "2810601", "2812301", "2812701" during the import process of the trips per person tables for the municipal level data. This can be easily done using the existing approach of SQL-based view creation in the [`{spanishoddata}`](https://github.com/Robinlovelace/spanishoddata){target='_blank'} R package.
 
 ### Links to the original files
 

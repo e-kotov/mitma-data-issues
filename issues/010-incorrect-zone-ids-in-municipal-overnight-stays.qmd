@@ -8,7 +8,7 @@ categories:
     - tabular data
     - incorrect data
     - zone IDs mismatch
-    - "importance: high"
+    - "importance: medium"
 issue-importance: "2 - medium"
 status: "⚠️ active"
 ---
