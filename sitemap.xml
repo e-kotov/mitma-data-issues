@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://e-kotov.github.io/mitma-data-issues/issues/011-v1-tpp-mismatch-zone-ids-in-table-and-spatial-data.html</loc>
-    <lastmod>2024-08-18T09:10:33.494Z</lastmod>
+    <lastmod>2024-08-18T11:07:46.248Z</lastmod>
   </url>
   <url>
     <loc>https://e-kotov.github.io/mitma-data-issues/issues/005-invalid-geoms-gau.html</loc>
@@ -17,24 +17,28 @@
     <lastmod>2024-08-17T15:26:30.178Z</lastmod>
   </url>
   <url>
-    <loc>https://e-kotov.github.io/mitma-data-issues/issues/009-missing-population-counts-for-large-urban-ares.html</loc>
-    <lastmod>2024-08-17T15:29:31.400Z</lastmod>
+    <loc>https://e-kotov.github.io/mitma-data-issues/issues/012-v1-tpp-district-files-in-municipality-folders.html</loc>
+    <lastmod>2024-08-18T11:07:36.455Z</lastmod>
   </url>
   <url>
-    <loc>https://e-kotov.github.io/mitma-data-issues/issues/003-missing-population-counts-for-municipalities.html</loc>
-    <lastmod>2024-08-17T15:26:20.413Z</lastmod>
-  </url>
-  <url>
-    <loc>https://e-kotov.github.io/mitma-data-issues/index.html</loc>
-    <lastmod>2024-08-17T15:42:12.844Z</lastmod>
+    <loc>https://e-kotov.github.io/mitma-data-issues/issues/008-missing-population-counts-for-districts.html</loc>
+    <lastmod>2024-08-17T15:26:38.755Z</lastmod>
   </url>
   <url>
     <loc>https://e-kotov.github.io/mitma-data-issues/license.html</loc>
     <lastmod>2024-07-16T13:30:58.861Z</lastmod>
   </url>
   <url>
-    <loc>https://e-kotov.github.io/mitma-data-issues/issues/008-missing-population-counts-for-districts.html</loc>
-    <lastmod>2024-08-17T15:26:38.755Z</lastmod>
+    <loc>https://e-kotov.github.io/mitma-data-issues/index.html</loc>
+    <lastmod>2024-08-17T15:42:12.844Z</lastmod>
+  </url>
+  <url>
+    <loc>https://e-kotov.github.io/mitma-data-issues/issues/003-missing-population-counts-for-municipalities.html</loc>
+    <lastmod>2024-08-17T15:26:20.413Z</lastmod>
+  </url>
+  <url>
+    <loc>https://e-kotov.github.io/mitma-data-issues/issues/009-missing-population-counts-for-large-urban-ares.html</loc>
+    <lastmod>2024-08-17T15:29:31.400Z</lastmod>
   </url>
   <url>
     <loc>https://e-kotov.github.io/mitma-data-issues/issues/002-missing-column-names-in-municip-pop.html</loc>
