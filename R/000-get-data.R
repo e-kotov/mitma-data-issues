@@ -46,28 +46,31 @@ download_v1_data <- function(){
 
   v1 <- spanishoddata:::spod_available_data(1, check_local_files = FALSE)
 
+  v1 |> dplyr::filter(grepl("municipios.*distrito", target_url))
+  v1 |> dplyr::filter(grepl("distrito.*municipios", target_url))
+
   spanishoddata::spod_download_data(
     "tpp",
     zones = "municip",
-    dates = c("2020-03-14", "2020-10-01")
+    dates = c("2020-03-14", "2020-10-01", "2021-02-05")
   )
 
   spanishoddata::spod_download_data(
     "tpp",
     zones = "distr",
-    dates = c("2020-03-14", "2020-10-01")
+    dates = c("2020-03-14", "2020-10-01", "2021-02-05")
   )
   
   spanishoddata::spod_download_data(
     "od",
     zones = "municip",
-    dates = c("2020-03-14", "2020-10-01")
+    dates = c("2020-03-14", "2020-10-01", "2021-02-05")
   )
 
   spanishoddata::spod_download_data(
     "od",
     zones = "distr",
-    dates = c("2020-03-14", "2020-10-01")
+    dates = c("2020-03-14", "2020-10-01", "2021-02-05")
   )
   
   zones_municip <- spanishoddata::spod_get_zones("municip", ver = 1)

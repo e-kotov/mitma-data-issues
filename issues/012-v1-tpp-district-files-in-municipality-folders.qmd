@@ -1,0 +1,97 @@
+---
+title: "Duplicate and missing municipality data"
+from: markdown+emoji
+code-annotations: hover
+date: "2024-08-17"
+date-modified: "2024-08-17"
+categories:
+    - tabular data
+    - incorrect data
+    - zone IDs mismatch
+    - missing data
+    - "importance: high"
+issue-importance: "3 - high"
+status: "⚠️ active"
+---
+
+---
+
+**Status**: {{< meta status >}}
+
+**Importance**: {{< meta issue-importance >}}
+
+**Summary**: Folders for municipality data contain files with disctrict data.
+
+**Expected Results**: There should be no district data files in municipality folders. There should be no missig municipality data.
+
+---
+
+
+---
+
+
+### Steps to Reproduce
+
+1. **Load Data**
+
+Load libraries and define data files.
+
+```{r}
+#| output: false
+
+library(tidyverse)
+library(sf)
+library(here)
+library(DT)
+library(spanishoddata)
+
+Sys.setenv("SPANISH_OD_DATA_DIR" = here::here("data"))
+v1 <- spanishoddata:::spod_available_data(1)
+v1$local_path <- fs::path_rel(v1$local_path)
+```
+
+Folders with municipality data contain files with disctrict data.
+
+```{r}
+DT::datatable(v1 |> dplyr::filter(grepl("municipios.*distrito", target_url)))
+```
+
+There is no issue with municipality data in district folders.
+
+```{r}
+DT::datatable(v1 |> dplyr::filter(grepl("distrito.*municipios", target_url)))
+```
+
+Is the data in the municipality folders that is labelled as district actually district level and are there files for municipalities in the same folders?
+
+```{r}
+problematic_urls <- v1 |> dplyr::filter(grepl("municipios.*distrito", target_url)) |> pull(target_url)
+problematic_dates <- str_extract(problematic_urls, "[0-9]{8}") |> paste0(collapse = "|")
+DT::datatable(v1 |> dplyr::filter(grepl(problematic_dates, target_url)) |> dplyr::arrange(local_path))
+```
+
+### What we find
+
+- `20210205_maestra_2_mitma_distrito.txt.gz` in `maestra2-mitma-municipios/ficheros-diarios/2021-02/` folder should not be used in any batch imports, as there is `20210205_maestra_2_mitma_municipio.txt.gz` in the same folder.
+
+- Critically, only `20200712_maestra_1_mitma_distrito.txt.gz` is in municipalities folder, there is no file `20200712_maestra_1_mitma_municipio.txt.gz` in the same folder. This file is also missing from the tar archive with monthly data ([https://opendata-movilidad.mitma.es/maestra1-mitma-municipios/meses-completos/202007_maestra1_mitma_municipio.tar](https://opendata-movilidad.mitma.es/maestra1-mitma-municipios/meses-completos/202007_maestra1_mitma_municipio.tar)).
+
+### Conclusion and how the issue should be fixed
+
+- The district files placed in the municipality folders should not be donwloaded to avoid data contamination during batch imports. That concerns files `20210205_maestra_2_mitma_distrito.txt.gz` in `maestra2-mitma-municipios/ficheros-diarios/2021-02/`.
+
+- `20200712_maestra_1_mitma_distrito.txt.gz` may be aggregated to municipality level using the reference tables:
+
+```{r}
+relaciones_distrito_mitma <- readr::read_delim(
+  "https://opendata-movilidad.mitma.es/relaciones_distrito_mitma.csv", delim = "|", show_col_types = FALSE)
+DT::datatable(relaciones_distrito_mitma)
+```
+
+```{r}
+relaciones_municipio_mitma <- readr::read_delim(
+  "https://opendata-movilidad.mitma.es/relaciones_municipio_mitma.csv", delim = "|", show_col_types = FALSE)
+DT::datatable(relaciones_municipio_mitma)
+```
+
+However, the issue is that [https://opendata-movilidad.mitma.es/maestra1-mitma-distritos/ficheros-diarios/2020-07/20200712_maestra_1_mitma_distrito.txt.gz](https://opendata-movilidad.mitma.es/maestra1-mitma-distritos/ficheros-diarios/2020-07/20200712_maestra_1_mitma_distrito.txt.gz) (has 5237350 rows) is not the same as "[https://opendata-movilidad.mitma.es/maestra1-mitma-municipios/ficheros-diarios/2020-07/20200712_maestra_1_mitma_distrito.txt.gz](https://opendata-movilidad.mitma.es/maestra1-mitma-municipios/ficheros-diarios/2020-07/20200712_maestra_1_mitma_distrito.txt.gz) (has 5020279), while the latter is also clearly not a municipality file in disguise, as it is noticeable larger and mostly contains district IDs, not municipality IDs. It is probably safer to download the larger file.

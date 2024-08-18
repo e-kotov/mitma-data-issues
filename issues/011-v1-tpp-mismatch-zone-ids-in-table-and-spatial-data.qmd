@@ -19,7 +19,7 @@ status: "⚠️ active"
 
 **Importance**: {{< meta issue-importance >}}
 
-**Summary**: The zone IDs in the municipal trips per person data (`maestra2-mitma-municipios`) are not consistent with the zone IDs in the municipal boundaries data (`zonificacion-municipios/municipios_mitma.shp`). TODO: list mismatching ids?
+**Summary**: The zone IDs in the municipal trips per person data (`maestra2-mitma-municipios`) are not consistent with the zone IDs in the municipal boundaries data (`zonificacion-municipios/municipios_mitma.shp`). **Also see related issue [012-v1-tpp-district-files-in-municipality-folders](012-v1-tpp-district-files-in-municipality-folders.qmd), which may be one of the culprits of the current issue.**
 
 **Expected Results**: The zone IDs in the municipal trips per person data (`maestra2-mitma-municipios`) should be consistent with the zone IDs in the municipal boundaries data (`zonificacion-municipios/municipios_mitma.shp`).
 
@@ -228,12 +228,89 @@ od_distr_2020_10_01 |> filter(origen %in% c("0490201") & destino %in% c("03058_A
 
 The data matches between municipal and district level datasests. Therefore, we can confrim that shorter zones IDs in some of the municipal level tables actually correspond to the longer zone IDs.
 
+### Additional analsysis using the full data
+
+Analaysis of the full trips per person dates range shows that the ID issue is random across speicific dates. This is done using [{spanishoddata}](https://github.com/ropensci/spanishoddata) package with DuckDB under the hood and is not fully reproducible here to avoid the large data download, but the results can be observed below:
+
+```
+> tpp_muni_raw |> dplyr::filter(distrito == "04902") |> dplyr::reframe(dates_range = range(fecha))
+# A tibble: 2 × 1
+  dates_range
+  <date>     
+1 2020-02-14 
+2 2021-05-09 
+> tpp_muni_raw |> dplyr::filter(distrito == "0490201") |> dplyr::reframe(dates_range = range(fecha))
+# A tibble: 2 × 1
+  dates_range
+  <date>     
+1 2020-02-21 
+2 2021-02-05 
+```
+
+Also, there are in fact more IDs that are affecteed by the issue. For example (again, on the full dataset):
+
+```
+> tpp_muni_raw |> dplyr::filter(distrito == "0105901") |> dplyr::reframe(dates_range = range(fecha))
+# A tibble: 2 × 1
+  dates_range
+  <date>     
+1 2021-02-05 
+2 2021-02-05 
+> tpp_muni_raw |> dplyr::filter(distrito == "01059") |> dplyr::reframe(dates_range = range(fecha))
+# A tibble: 2 × 1
+  dates_range
+  <date>     
+1 2020-02-14 
+2 2021-05-09
+```
+
+```{r}
+trips_per_person_2021_02_05 <- readr::read_delim(here("data/raw_data_cache/v1/maestra2-mitma-municipios/ficheros-diarios/year=2021/month=2/day=5/maestra_2_mitma_municipio.txt.gz"), delim = "|", show_col_types = FALSE, name_repair = "unique_quiet")
+```
+
+```{r}
+trips_per_person_2020_03_14 |> filter(distrito %in% c("01059"))
+trips_per_person_2020_03_14_distr |> filter(distrito %in% c("01059"))
+```
+
+```{r}
+od_municip_2020_03_14 |> filter(origen %in% c("01059") & destino %in% c("01001_AM") & periodo == "03")
+od_distr_2020_03_14 |> filter(origen %in% c("01059"))
+```
+
+```{r}
+trips_per_person_2020_03_14 |> filter(distrito %in% c("0105901"))
+trips_per_person_2020_03_14 |> filter(distrito %in% c("01059"))
+trips_per_person_2020_10_01 |> filter(distrito %in% c("0105901"))
+trips_per_person_2020_10_01 |> filter(distrito %in% c("01059"))
+```
+
+The case with the ID 0105901 is more complicated as it does not directly match with the ID 01059. 0105901 zone is a much smaller zone, one of many that are nested within the 01059 zone.
+
+This may be fixed with thereference tables:
+
+```{r}
+relaciones_distrito_mitma <- readr::read_delim(
+  "https://opendata-movilidad.mitma.es/relaciones_distrito_mitma.csv", delim = "|", show_col_types = FALSE)
+DT::datatable(relaciones_distrito_mitma)
+```
+
+```{r}
+relaciones_municipio_mitma <- readr::read_delim(
+  "https://opendata-movilidad.mitma.es/relaciones_municipio_mitma.csv", delim = "|", show_col_types = FALSE)
+DT::datatable(relaciones_municipio_mitma)
+```
+
+Also, this is probably caused by a related issue [012-v1-tpp-district-files-in-municipality-folders](012-v1-tpp-district-files-in-municipality-folders.qmd).
+
 
 ### Conclusion and how the issue should be fixed
 
 The zone IDs in the tables for municipal level trips per person data and spatial data do not match starting with a certain date. The zones with IDs "04902", "28006", "28106", "28123", "28127" should be recodeed to "0490201", "2800601", "2810601", "2812301", "2812701" during the import process of the trips per person tables for the municipal level data. This can be easily done using the existing approach of SQL-based view creation in the [`{spanishoddata}`](https://github.com/Robinlovelace/spanishoddata){target='_blank'} R package.
 
 ### Links to the original files
+
+Imcomplete list, as the issue spans far beyond what was originally identified.
 
 ```{r}
 files <- spanishoddata:::spod_available_data(1, data_dir = here("data"))
